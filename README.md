@@ -42,7 +42,7 @@
 ![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/messenger-1.png)
 
 ##### **mmasiukevich-service-bus**
-* заполнение очереди: ~6.000 сообщений в секунду
+* заполнение очереди: ~5.900 сообщений в секунду
 * Обработка сообщений: ~1050 сообщений в секунду
 * Принятие событий: ~4.100 (~4.600) сообщений в секунду
 
