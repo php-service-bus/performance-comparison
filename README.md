@@ -21,7 +21,7 @@
 ##### **symfony/messenger**
 * заполнение очереди: ~13.200 сообщений в секунду
 * Обработка сообщений: ~250 сообщений в секунду
-* Принятие событий: ~4350 сообщений в секунду
+* Принятие событий: ~4.350 сообщений в секунду
 
 ![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/messenger-pc.png)
 
