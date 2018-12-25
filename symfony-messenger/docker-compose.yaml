@@ -17,7 +17,7 @@ services:
       RABBITMQ_DEFAULT_PASS: admin123
 
   db:
-    image: postgres:9.6
+    image: postgres:11.1-alpine
     container_name: symfony-comparison-db
     restart: always
     environment:
