@@ -11,11 +11,25 @@
 * Версия PHP - 7.2
 * Для **mmasiukevich-service-bus** дополнительно установлены расширения: raphf, pq, sockets, event
 
-#### Тестирование
+## Тестирование
 
-[DigitalOcean](https://www.digitalocean.com/) CPU Optimized Droplet (4 CPUs/8GB)
+#### [DigitalOcean](https://www.digitalocean.com/) CPU Optimized Droplet (4 CPUs/8GB)
 
-**symfony/messenger** в начале довольно быстро отправляет сообщения (ощутимо быстрее, чем **mmasiukevich-service-bus**). Но обработка сообщений находится на уровне ~700/с. В конце, когда сообщения просто принимаются, слегка не дотягивает до 5.000/с
+**symfony/messenger** в начале довольно быстро отправляет сообщения (ощутимо быстрее, чем **mmasiukevich-service-bus**). Но обработка сообщений находится на уровне ~700 сообщений в секунду. В конце, когда сообщения просто принимаются, слегка не дотягивает до ~5.000 сообщений в секунду
+
+![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/cloud/messenger.jpg)
+
+**mmasiukevich-service-bus** в начале проигрывает в заполнении очереди, но когда дело доходит до обработки сообщений показывает результат на уровне ~1.650 сообщений в секунду. В конце на пике получается около ~6.000 сообщений в секунду
 
 ![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/cloud/service-bus.jpg)
 
+#### PC на базе i5/16GB (SSD)
+
+Как и в случае с облаком, **symfony/messenger** опережает в начальном заполнении очереди. Обработка сообщений находится на уровне ~230 сообщений в секунду. В конце немногим меньше ~4.000 сообщений в секунду
+
+![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/pc/messenger.jpg)
+
+**mmasiukevich-service-bus** обрабатывает сообщения со скоростью ~750 в секунду. На завершающем этапе скорость вырастает до 7.800 сообщений в секунду.
+Общее время, затраченное на обработку, в разы меньше.
+
+![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/pc/service-bus.jpg)
