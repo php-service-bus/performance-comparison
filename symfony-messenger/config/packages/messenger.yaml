@@ -1,0 +1,8 @@
+framework:
+    messenger:
+        transports:
+            amqp: '%env(MESSENGER_TRANSPORT_DSN)%'
+
+        routing:
+             App\StoreCustomer: amqp
+             App\CustomerStored: amqp

@@ -1,0 +1,46 @@
+{
+    "name": "amphp/sql",
+    "description": "Asynchronous SQL client for Amp.",
+    "keywords": [
+        "database",
+        "db",
+        "sql",
+        "asynchronous",
+        "async"
+    ],
+    "homepage": "http://amphp.org",
+    "license": "MIT",
+    "require": {
+        "php": ">=7",
+        "amphp/amp": "^2"
+    },
+    "require-dev": {
+        "amphp/php-cs-fixer-config": "dev-master",
+        "amphp/phpunit-util": "^1",
+        "phpunit/phpunit": "^6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Amp\\Sql\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Amp\\Sql\\Test\\": "test"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.0.0"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs",
+            "@test"
+        ],
+        "cs": "php-cs-fixer fix -v --diff --dry-run",
+        "cs-fix": "php-cs-fixer fix -v --diff",
+        "test": "phpunit --coverage-text"
+    }
+}

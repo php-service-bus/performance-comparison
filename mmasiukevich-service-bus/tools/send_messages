@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+use App\StoreCustomerCommand;
+use function Desperado\ServiceBus\Common\uuid;
+
+include __DIR__ . '/../vendor/autoload.php';
+
+$interactions = new DemoPublisher(__DIR__ . '/../.env');
+
+for($i = 0; $i < 100000; $i++)
+{
+    $interactions->sendMessage(
+        new StoreCustomerCommand(uuid(), 'name_' . $i, 'name@qwerty.root')
+    );
+}
+
+

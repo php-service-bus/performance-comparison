@@ -1,0 +1,33 @@
+kramdown:
+  input: GFM
+  toc_levels: 2..3
+
+baseurl: "/artax"
+layouts_dir: ".shared/layout"
+includes_dir: ".shared/includes"
+
+exclude: ["Gemfile", "Gemfile.lock", "README.md", "vendor"]
+safe: true
+
+repository: amphp/artax
+gems:
+ - "jekyll-github-metadata"
+ - "jekyll-relative-links"
+
+defaults:
+ - scope:
+     path: ""
+     type: "pages"
+   values:
+     layout: "docs"
+     description: "Artax is an asynchronous HTTP/1.1 client for PHP based on Amp. Its API simplifies standards-compliant HTTP resource traversal and RESTful web service consumption without obscuring the underlying protocol."
+     keywords: ["artax", "amp", "amphp", "async", "asynchronous", "http client", "streaming", "rest", "http", "php", "https", "tls"]
+
+shared_asset_path: "/artax/asset"
+
+navigation:
+ - requests
+ - responses
+ - configuration
+ - parallel
+ - streaming

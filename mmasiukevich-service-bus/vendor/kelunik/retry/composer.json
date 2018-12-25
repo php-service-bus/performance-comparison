@@ -1,0 +1,26 @@
+{
+    "name": "kelunik/retry",
+    "description": "A tiny library for retrying failed operations.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Niklas Keller",
+            "email": "me@kelunik.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Kelunik\\Retry\\": "src"
+        },
+        "files": ["src/functions.php"]
+    },
+    "require": {
+        "amphp/amp": "^2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6",
+        "friendsofphp/php-cs-fixer": "^2.3",
+        "amphp/socket": "^0.10.2"
+    }
+}

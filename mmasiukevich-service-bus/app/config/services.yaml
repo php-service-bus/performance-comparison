@@ -1,0 +1,21 @@
+services:
+  # Generate PostgreSQL schema for service-bus components
+  postgresql_schema_builder:
+    class: PostgreSQLSchemaBuilder
+    public: true
+    arguments:
+      $adapter: '@Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter'
+
+  # Disable stdout logger
+  service_bus.logger:
+    public: true
+    class: Psr\Log\NullLogger
+
+  # Override concurrent tasks count
+  Desperado\ServiceBus\EntryPoint\EntryPoint:
+    arguments:
+      $transport: '@Desperado\ServiceBus\Infrastructure\Transport\Transport'
+      $processor: '@Desperado\ServiceBus\EntryPoint\EntryPointProcessor'
+      $logger: '@service_bus.logger'
+      $maxConcurrentTaskCount: 90
+      $awaitDelay: 15

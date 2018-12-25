@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+
+  queue:
+    build:
+      context: docker/rabbitmq
+    container_name: symfony-comparison-queue
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_VM_MEMORY_HIGH_WATERMARK: 2000MiB
+      RABBITMQ_ERLANG_COOKIE: f6fAjy5yes
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+
+  db:
+    image: postgres:9.6
+    container_name: symfony-comparison-db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123456789
+      POSTGRES_USER: demo
+    ports:
+      - 5432:5432
+
+  app:
+    build:
+      context: docker/application
+    container_name: symfony-comparison-backend
+    working_dir: /var/www
+    restart: always
+    volumes:
+      - ./:/var/www
+    environment:
+      MESSENGER_TRANSPORT_DSN: amqp://admin:admin123@queue:5672/%2f
+      DATABASE_URL: pgsql://demo:123456789@db/demo
+      APP_ENV: prod
+    links:
+      - queue:queue
+    command: ["/tools/entry_point"]

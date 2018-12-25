@@ -1,0 +1,38 @@
+{
+    "name": "kelunik/certificate",
+    "description": "Access certificate details and transform between different formats.",
+    "type": "library",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Niklas Keller",
+            "email": "me@kelunik.com"
+        }
+    ],
+    "keywords": [
+        "certificate",
+        "certificates",
+        "openssl",
+        "x509",
+        "pem",
+        "der"
+    ],
+    "support": {
+        "issues": "https://github.com/kelunik/certificate/issues"
+    },
+    "require": {
+        "php": "^5.4 | ^7.0",
+        "ext-openssl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "fabpot/php-cs-fixer": "^1.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kelunik\\Certificate\\": "lib"
+        }
+    }
+}
