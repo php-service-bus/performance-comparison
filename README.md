@@ -1,5 +1,3 @@
-### Сравнение производительности
-
 ##### Сценарий
 * В RabbitMQ добавляется 100.000 команд (пик в начале)
 * При получении команды приложение начинает транзакцию (PostgreSQL 9.6), добавляет запись, отправляет событие в RabbitMQ, коммитит транзакцию
@@ -13,10 +11,11 @@
 * Версия PHP - 7.2
 * Для **mmasiukevich-service-bus** дополнительно установлены расширения: raphf, pq, sockets, event
 
+#### Тестирование
 
 [DigitalOcean](https://www.digitalocean.com/) CPU Optimized Droplet (4 CPUs/8GB)
 
 **symfony/messenger** в начале довольно быстро отправляет сообщения (ощутимо быстрее, чем **mmasiukevich-service-bus**). Но обработка сообщений находится на уровне ~700/с. В конце, когда сообщения просто принимаются, слегка не дотягивает до 5.000/с
 
-[](https://github.com/mmasiukevich/performance-comparison/blob/master/results/cloud/service-bus.jpg)
+![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/cloud/service-bus.jpg)
 
