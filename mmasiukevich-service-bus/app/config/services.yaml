@@ -17,5 +17,5 @@ services:
       $transport: '@Desperado\ServiceBus\Infrastructure\Transport\Transport'
       $processor: '@Desperado\ServiceBus\EntryPoint\EntryPointProcessor'
       $logger: '@service_bus.logger'
-      $maxConcurrentTaskCount: 90
+      $maxConcurrentTaskCount: 80
       $awaitDelay: 20
