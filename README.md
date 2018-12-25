@@ -27,7 +27,7 @@
 
 ##### **mmasiukevich-service-bus**
 * заполнение очереди: ~10.200 сообщений в секунду
-* Обработка сообщений: ~2000 сообщений в секунду
+* Обработка сообщений: ~2.000 сообщений в секунду
 * Принятие событий: ~6.700 сообщений в секунду
 
 ![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/service-bus-pc.png)
@@ -37,7 +37,7 @@
 ##### **symfony/messenger**
 * заполнение очереди: ~5.900 сообщений в секунду
 * Обработка сообщений: ~670 сообщений в секунду
-* Принятие событий: ~2450 сообщений в секунду
+* Принятие событий: ~2.450 сообщений в секунду
 
 ![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/messenger-1.png)
 
