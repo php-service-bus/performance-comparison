@@ -22,8 +22,6 @@ services:
 
   App\InteractionsHelper:
     public: true
-    arguments:
-      $transportDsn: '%env(MESSENGER_TRANSPORT_DSN)%'
 
   App\StoreCustomerHandler:
     tags: [messenger.message_handler]
