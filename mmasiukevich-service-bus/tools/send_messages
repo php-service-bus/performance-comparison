@@ -10,11 +10,14 @@ include __DIR__ . '/../vendor/autoload.php';
 
 $interactions = new DemoPublisher(__DIR__ . '/../.env');
 
-for($i = 0; $i < 100000; $i++)
-{
-    $interactions->sendMessage(
-        new StoreCustomerCommand(uuid(), 'name_' . $i, 'name@qwerty.root')
-    );
-}
-
-
+\Amp\Loop::run(
+    function() use ($interactions)
+    {
+        for($i = 0; $i < 100000; $i++)
+        {
+            yield $interactions->sendMessage(
+                new StoreCustomerCommand(uuid(), 'name_' . $i, 'name@qwerty.root')
+            );
+        }
+    }
+);

@@ -1,1 +1,0 @@
-../vendor/amphp/amp/travis/install-uv.sh

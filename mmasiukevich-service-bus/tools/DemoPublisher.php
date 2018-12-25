@@ -2,7 +2,9 @@
 
 declare(strict_types = 1);
 
+use Amp\Promise;
 use function Amp\Promise\wait;
+use function Amp\call;
 use Desperado\ServiceBus\Common\Contract\Messages\Message;
 use function Desperado\ServiceBus\Common\uuid;
 use Desperado\ServiceBus\Infrastructure\MessageSerialization\MessageEncoder;
@@ -45,36 +47,41 @@ final class DemoPublisher
     /**
      * Send message to queue
      *
-     * @noinspection PhpDocMissingThrowsInspection
-     *
      * @param Message     $message
      * @param string|null $topic
      * @param string|null $routingKey
      *
-     * @return void
+     * @return Promise
      */
-    public function sendMessage(Message $message, ?string $topic = null, ?string $routingKey = null): void
+    public function sendMessage(Message $message, ?string $topic = null, ?string $routingKey = null): Promise
     {
-        $topic      = $topic ?? (string) \getenv('SENDER_DESTINATION_TOPIC');
-        $routingKey = $routingKey ?? (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY');
-        /** @noinspection PhpUnhandledExceptionInspection */
-        wait(
-            $this->transport()->send(
-                new OutboundPackage(
-                    $this->encoder->encode($message),
-                    [Transport::SERVICE_BUS_TRACE_HEADER => uuid()],
-                    new AmqpTransportLevelDestination($topic, $routingKey)
-                )
-            )
+        return call(
+            function(Message $message, ?string $topic, ?string $routingKey): \Generator
+            {
+                $topic      = $topic ?? (string) \getenv('SENDER_DESTINATION_TOPIC');
+                $routingKey = $routingKey ?? (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY');
+
+                /** @var Transport $transport */
+                $transport = yield from $this->transport();
+
+                yield $transport->send(
+                    new OutboundPackage(
+                        $this->encoder->encode($message),
+                        [Transport::SERVICE_BUS_TRACE_HEADER => uuid()],
+                        new AmqpTransportLevelDestination($topic, $routingKey)
+                    )
+                );
+            },
+            $message, $topic, $routingKey
         );
     }
 
     /**
      * @noinspection PhpDocMissingThrowsInspection
      *
-     * @return Transport
+     * @return \Generator
      */
-    private function transport(): Transport
+    private function transport(): \Generator
     {
         if(null === $this->transport)
         {
@@ -82,20 +89,17 @@ final class DemoPublisher
                 new AmqpConnectionConfiguration(\getenv('TRANSPORT_CONNECTION_DSN'))
             );
 
-            /** @noinspection PhpUnhandledExceptionInspection */
-            wait($this->transport->connect());
+            yield $this->transport->connect();
 
             $mainExchange = AmqpExchange::direct((string) \getenv('TRANSPORT_TOPIC'), true);
             $mainQueue    = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
 
-            $promise = $this->transport->createQueue(
+            yield $this->transport->createQueue(
                 $mainQueue,
                 new QueueBind(
                     $mainExchange,
                     (string) \getenv('TRANSPORT_ROUTING_KEY'))
             );
-
-            wait($promise);
         }
 
         return $this->transport;

@@ -1,6 +1,0 @@
-composer.phar
-composer.lock
-phpunit.xml
-src/hoa.php
-vendor/
-build/
