@@ -18,4 +18,4 @@ services:
       $processor: '@Desperado\ServiceBus\EntryPoint\EntryPointProcessor'
       $logger: '@service_bus.logger'
       $maxConcurrentTaskCount: 90
-      $awaitDelay: 10
+      $awaitDelay: 20
