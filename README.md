@@ -14,6 +14,8 @@
 ##### Goal
 This test goal is to show the difference between synchronous and asynchronous interaction. For example, DB writes is slower on weaker hardware. As a result worker performs less useful work while waiting for a synchronous operation result. The difference is best seen on a simple PC or low-level server.
 
+**@see**: [Cooperative multitasking](https://nikic.github.io/2012/12/22/Cooperative-multitasking-using-coroutines-in-PHP.html)
+
 ## Testing
 
 #### PC with i5 CPU, 16GB RAM and SSD
