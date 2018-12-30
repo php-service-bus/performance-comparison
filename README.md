@@ -7,9 +7,9 @@
 * All the logging is disabled
 * Every application has only 1 instance (single process);
 * I did not found how to change QoS settings in [symfony/messenger](https://github.com/symfony/messenger) so in both apps default ones are used;
-* Number of simultaneously processed messages in [mmasiukevich-service-bus](https://github.com/mmasiukevich/service-bus) was changed to 80;
+* Number of simultaneously processed messages in [mmasiukevich/service-bus](https://github.com/mmasiukevich/service-bus) was changed to 80;
 * PHP 7.2;
-* For [mmasiukevich-service-bus](https://github.com/mmasiukevich/service-bus) following PHP extensions were installed: raphf, pq, sockets, event.
+* For [mmasiukevich/service-bus](https://github.com/mmasiukevich/service-bus) following PHP extensions were installed: raphf, pq, sockets, event.
 
 ##### Goal
 This test goal is to show the difference between synchronous and asynchronous interaction. For example, DB writes is slower on weaker hardware. As a result worker performs less useful work while waiting for a synchronous operation result. The difference is best seen on a simple PC or low-level server.
@@ -27,7 +27,7 @@ This test goal is to show the difference between synchronous and asynchronous in
 
 ![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/messenger-pc.png)
 
-##### [mmasiukevich-service-bus](https://github.com/mmasiukevich/service-bus)
+##### [mmasiukevich/service-bus](https://github.com/mmasiukevich/service-bus)
 * Queue filling: ~10.200 MpS
 * Command (message) processing: ~2.000 MpS
 * Event (message) ACKing: ~6.700 MpS
@@ -43,7 +43,7 @@ This test goal is to show the difference between synchronous and asynchronous in
 
 ![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/messenger-1.png)
 
-##### [mmasiukevich-service-bus](https://github.com/mmasiukevich/service-bus)
+##### [mmasiukevich/service-bus](https://github.com/mmasiukevich/service-bus)
 * Queue filling: ~5.900 MpS
 * Command (message) processing: ~1050 MpS
 * Event (message) ACKing: ~4.100 (~4.600) MpS
@@ -59,7 +59,7 @@ This test goal is to show the difference between synchronous and asynchronous in
 
 ![](https://github.com/mmasiukevich/performance-comparison/blob/master/results/messenger-2.png)
 
-##### [mmasiukevich-service-bus](https://github.com/mmasiukevich/service-bus)
+##### [mmasiukevich/service-bus](https://github.com/mmasiukevich/service-bus)
 * Queue filling: ~10.900 MpS
 * Command (message) processing: ~2.200 MpS
 * Event (message) ACKing: ~8.000 MpS
