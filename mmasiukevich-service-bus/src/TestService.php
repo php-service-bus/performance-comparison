@@ -12,14 +12,13 @@ declare(strict_types = 1);
 
 namespace App;
 
-use Desperado\ServiceBus\Application\KernelContext;
-use Desperado\ServiceBus\Endpoint\DeliveryOptions;
-use Desperado\ServiceBus\Infrastructure\HttpClient\Data\HttpRequest;
-use Desperado\ServiceBus\Infrastructure\HttpClient\HttpClient;
-use function Desperado\ServiceBus\Infrastructure\Storage\SQL\insertQuery;
-use Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter;
-use Desperado\ServiceBus\Services\Annotations\CommandHandler;
-use Desperado\ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Common\Endpoint\DeliveryOptions;
+use ServiceBus\Context\KernelContext;
+use ServiceBus\Endpoint\DefaultDeliveryOptions;
+use ServiceBus\Services\Annotations\CommandHandler;
+use ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Storage\Common\DatabaseAdapter;
+use function ServiceBus\Storage\Sql\insertQuery;
 
 /**
  *
@@ -27,11 +26,22 @@ use Desperado\ServiceBus\Services\Annotations\EventListener;
 final class TestService
 {
     /**
+     * @var DeliveryOptions
+     */
+    private $deliveryOptions;
+
+    public function __construct()
+    {
+        $this->deliveryOptions = DefaultDeliveryOptions::nonPersistent();
+    }
+
+
+    /**
      * @CommandHandler(validate=false)
      *
      * @param StoreCustomerCommand $command
      * @param KernelContext        $context
-     * @param StorageAdapter       $adapter
+     * @param DatabaseAdapter      $adapter
      *
      * @return \Generator
      *
@@ -40,11 +50,10 @@ final class TestService
     public function handle(
         StoreCustomerCommand $command,
         KernelContext $context,
-        StorageAdapter $adapter
+        DatabaseAdapter $adapter
     ): \Generator
     {
-        $builder = insertQuery(
-            'customers', [
+        $builder = insertQuery('customers', [
                 'id'    => $command->id,
                 'name'  => $command->name,
                 'email' => $command->email
@@ -53,13 +62,13 @@ final class TestService
 
         $compiledQuery = $builder->compile();
 
-        /** @var \Desperado\ServiceBus\Infrastructure\Storage\TransactionAdapter $transaction */
+        /** @var \ServiceBus\Storage\Common\Transaction $transaction */
         $transaction = yield $adapter->transaction();
 
         try
         {
             yield $transaction->execute($compiledQuery->sql(), $compiledQuery->params());
-            yield $context->delivery(new CustomerStored($command->id), DeliveryOptions::nonPersistent());
+            yield $context->delivery(new CustomerStored($command->id), $this->deliveryOptions);
             yield $transaction->commit();
         }
         catch(\Throwable $throwable)

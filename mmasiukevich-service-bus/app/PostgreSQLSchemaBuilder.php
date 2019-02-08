@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
+use ServiceBus\Storage\Common\DatabaseAdapter;
 use function Amp\call;
 use Amp\Promise;
-use Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter;
 
 /**
  * Generate PostgreSQL schema for service-bus components
@@ -12,105 +12,16 @@ use Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter;
 final class PostgreSQLSchemaBuilder
 {
     /**
-     * @var StorageAdapter
+     * @var DatabaseAdapter
      */
     private $adapter;
 
     /**
-     * @var string
+     * @param DatabaseAdapter $adapter
      */
-    private $serviceBusDirectory;
-
-    /**
-     * @param StorageAdapter $adapter
-     */
-    public function __construct(StorageAdapter $adapter)
+    public function __construct(DatabaseAdapter $adapter)
     {
-        $this->adapter             = $adapter;
-        $this->serviceBusDirectory = __DIR__ . '/../vendor/mmasiukevich/service-bus';
-    }
-
-    /**
-     * Create all schemas
-     *
-     * @return Promise
-     */
-    public function build(): Promise
-    {
-        return call(
-            function(): \Generator
-            {
-                yield $this->enableUid();
-                yield $this->eventSourcing();
-                yield $this->sagas();
-                yield $this->indexer();
-                yield $this->scheduler();
-            }
-        );
-    }
-
-    /**
-     * Enable uuid extension
-     *
-     * @return Promise
-     */
-    public function enableUid(): Promise
-    {
-        return $this->adapter->execute('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
-    }
-
-    /**
-     * Create Event Sourcing schema
-     *
-     * @return Promise
-     */
-    public function eventSourcing(): Promise
-    {
-        return call(
-            function(): \Generator
-            {
-                yield $this->importFixture($this->serviceBusDirectory . '/src/EventSourcing/EventStreamStore/Sql/schema/event_store_stream.sql');
-                yield $this->importFixture($this->serviceBusDirectory . '/src/EventSourcing/EventStreamStore/Sql/schema/event_store_stream_events.sql');
-                yield $this->importFixture($this->serviceBusDirectory . '/src/EventSourcing/EventStreamStore/Sql/schema/event_store_snapshots.sql');
-                yield $this->importFixture($this->serviceBusDirectory . '/src/EventSourcing/EventStreamStore/Sql/schema/indexes.sql', true);
-            }
-        );
-    }
-
-    /**
-     * Create Sagas schema
-     *
-     * @return Promise
-     */
-    public function sagas(): Promise
-    {
-        return call(
-            function(): \Generator
-            {
-                yield $this->importFixture($this->serviceBusDirectory . '/src/Sagas/SagaStore/Sql/schema/sagas_store.sql');
-                yield $this->importFixture($this->serviceBusDirectory . '/src/Sagas/SagaStore/Sql/schema/indexes.sql', true);
-            }
-        );
-    }
-
-    /**
-     * Create Indexer schema
-     *
-     * @return Promise
-     */
-    public function indexer(): Promise
-    {
-        return $this->importFixture($this->serviceBusDirectory . '/src/Index/Storage/Sql/schema/event_sourcing_indexes.sql');
-    }
-
-    /**
-     * Create Scheduler schema
-     *
-     * @return Promise
-     */
-    public function scheduler(): Promise
-    {
-        return $this->importFixture($this->serviceBusDirectory . '/src/Scheduler/Store/Sql/schema/scheduler_registry.sql');
+        $this->adapter = $adapter;
     }
 
     /**

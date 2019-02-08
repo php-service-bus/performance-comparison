@@ -1,16 +1,18 @@
 FROM php:7.2-cli-alpine
 
 RUN set -xe \
-    && apk add --no-cache --virtual .persistent-deps  postgresql-dev zlib-dev libevent-dev libpq \
-    && apk add --no-cache --virtual .build-deps autoconf g++ libtool make \
+    && apk add libpq postgresql-dev libevent-dev autoconf zlib-dev g++ libtool make \
     && docker-php-ext-install \
         bcmath \
         pcntl \
         mbstring \
         sysvsem \
         zip \
+        # escape bytea string
+        pgsql \
     # Iconv fix
     && apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
+    # sockets
     && docker-php-ext-install sockets \
     # event
     && pecl install event \
@@ -24,7 +26,8 @@ RUN set -xe \
     && echo "extension=pq.so" > /usr/local/etc/php/conf.d/pq.ini \
 	&& rm -rf /tmp/* /var/cache/apk/*
 
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+# Iconv fix
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so phpalpine
 
 # Composer install
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \

@@ -11,10 +11,10 @@ declare(strict_types = 1);
 
 namespace App;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use ServiceBus\Common\Messages\Event;
 
 /**
- *
+ * @property-read string $id
  */
 final class CustomerStored implements Event
 {

@@ -4,18 +4,23 @@ services:
     class: PostgreSQLSchemaBuilder
     public: true
     arguments:
-      $adapter: '@Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter'
+      $adapter: '@ServiceBus\Storage\Common\DatabaseAdapter'
 
-  # Disable stdout logger
-  service_bus.logger:
-    public: true
-    class: Psr\Log\NullLogger
+  service_bus.logger.handlers.stdout_handler:
+    class: ServiceBus\Infrastructure\Logger\Handlers\StdOut\StdOutHandler
+
+  #service_bus.logger:
+    #class: Monolog\Logger
+    #arguments:
+      #$name: '%service_bus.entry_point%'
+      #$handlers:
+        #- '@service_bus.logger.handlers.stdout_handler'
 
   # Override concurrent tasks count
-  Desperado\ServiceBus\EntryPoint\EntryPoint:
+  ServiceBus\EntryPoint\EntryPoint:
     arguments:
-      $transport: '@Desperado\ServiceBus\Infrastructure\Transport\Transport'
-      $processor: '@Desperado\ServiceBus\EntryPoint\EntryPointProcessor'
+      $transport: '@ServiceBus\Transport\Common\Transport'
+      $processor: '@ServiceBus\EntryPoint\EntryPointProcessor'
       $logger: '@service_bus.logger'
       $maxConcurrentTaskCount: 80
       $awaitDelay: 20

@@ -7,11 +7,13 @@
   "require": {
     "php": ">=7.2",
     "ext-json": "*",
-    "mmasiukevich/service-bus": "dev-master"
+    "mmasiukevich/service-bus": "dev-3.0-refactoring",
+    "php-service-bus/module-phpinnacle-transport": "^v3.0",
+    "php-service-bus/module-storage-sql": "^v3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.4",
-    "vimeo/psalm": "^2"
+    "phpunit/phpunit": "^7",
+    "vimeo/psalm": "^3"
   },
   "config": {
     "preferred-install": {

@@ -12,10 +12,12 @@ declare(strict_types = 1);
 
 namespace App;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Command;
+use ServiceBus\Common\Messages\Command;
 
 /**
- *
+ * @property-read string $id
+ * @property-read string $name
+ * @property-read string $email
  */
 final class StoreCustomerCommand implements Command
 {
@@ -41,8 +43,8 @@ final class StoreCustomerCommand implements Command
      */
     public function __construct(string $id, string $name, string $email)
     {
-        $this->id = $id;
-        $this->name = $name;
+        $this->id    = $id;
+        $this->name  = $name;
         $this->email = $email;
     }
 }

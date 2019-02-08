@@ -4,14 +4,16 @@
 declare(strict_types = 1);
 
 use App\StoreCustomerCommand;
-use function Desperado\ServiceBus\Common\uuid;
+use function ServiceBus\Common\uuid;
+use function Amp\Promise\wait;
+use function Amp\call;
 
 include __DIR__ . '/../vendor/autoload.php';
 
-$interactions = new DemoPublisher(__DIR__ . '/../.env');
+$interactions = new \DemoPublisher(__DIR__ . '/../.env');
 
-\Amp\Promise\wait(
-    \Amp\call(
+wait(
+    call(
         static function() use ($interactions): \Generator
         {
             for($i = 0; $i < 100000; $i++)
