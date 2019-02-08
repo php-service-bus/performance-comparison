@@ -1,6 +1,7 @@
 FROM php:7.2-cli-alpine
 
 RUN set -xe \
+    && apk update \
     && apk add libpq postgresql-dev libevent-dev autoconf zlib-dev g++ libtool make \
     && docker-php-ext-install \
         bcmath \
