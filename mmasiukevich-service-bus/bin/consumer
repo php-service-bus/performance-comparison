@@ -16,7 +16,10 @@ use ServiceBus\Storage\Module\SqlStorageModule;
 
 include __DIR__ . '/../vendor/autoload.php';
 
-/** @var \Symfony\Component\DependencyInjection\Container $container */
+/**
+ * @noinspection PhpUnhandledExceptionInspection
+ * @var \Symfony\Component\DependencyInjection\Container $container
+ */
 $container = \ServiceBus\Application\Bootstrap::withDotEnv(__DIR__ . '/../.env')
     ->useCustomCacheDirectory(__DIR__ . '/../cache')
     ->addExtensions(new \AppExtension())
@@ -32,18 +35,20 @@ $container = \ServiceBus\Application\Bootstrap::withDotEnv(__DIR__ . '/../.env')
     )
     ->boot();
 
+/**
+ * @noinspection PhpUnhandledExceptionInspection
+ * @var PostgreSQLSchemaBuilder $schemaBuilder
+ */
+$schemaBuilder = $container->get('postgresql_schema_builder');
+
+/**  @noinspection PhpUnhandledExceptionInspection */
+$kernel = new ServiceBusKernel($container);
 
 Loop::run(
-    static function() use ($container): \Generator
+    static function() use ($kernel, $schemaBuilder): \Generator
     {
-        /** @var PostgreSQLSchemaBuilder $schemaBuilder */
-        $schemaBuilder = $container->get('postgresql_schema_builder');
-
         $mainExchange = AmqpExchange::direct((string) \getenv('TRANSPORT_TOPIC'), true);
         $mainQueue    = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
-
-        $kernel = (new ServiceBusKernel($container))
-            ->useDefaultStopSignalHandler(3);
 
         yield $kernel->createQueue(
             $mainQueue,
