@@ -7,7 +7,7 @@
 * All the logging is disabled
 * Every application has only 1 instance (single process);
 * I did not found how to change QoS settings in [symfony/messenger](https://github.com/symfony/messenger) so in both apps default ones are used;
-* Number of simultaneously processed messages in [mmasiukevich/service-bus](https://github.com/mmasiukevich/service-bus) was changed to 80;
+* Number of simultaneously processed messages in [mmasiukevich/service-bus](https://github.com/mmasiukevich/service-bus) was changed to 75;
 * PHP 7.3;
 * For [mmasiukevich/service-bus](https://github.com/mmasiukevich/service-bus) following PHP extensions were installed: raphf, pq, sockets, event.
 
