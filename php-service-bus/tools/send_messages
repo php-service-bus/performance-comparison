@@ -5,16 +5,16 @@ declare(strict_types = 1);
 
 use App\StoreCustomerCommand;
 use function ServiceBus\Common\uuid;
-use function Amp\Promise\wait;
-use function Amp\call;
+use Amp\Loop;
 
 include __DIR__ . '/../vendor/autoload.php';
 
 $interactions = new \DemoPublisher(__DIR__ . '/../.env');
 
-wait(
-    call(
-        static function() use ($interactions): \Generator
+Loop::run(
+    function() use ($interactions): \Generator
+    {
+        try
         {
             for($i = 0; $i < 100000; $i++)
             {
@@ -23,5 +23,13 @@ wait(
                 );
             }
         }
-    )
+        catch(Throwable $throwable)
+        {
+            echo $throwable->getMessage(), \PHP_EOL;
+        }
+    }
 );
+
+unset($interactions);
+
+echo 'Filling in the message queue is completed', \PHP_EOL;

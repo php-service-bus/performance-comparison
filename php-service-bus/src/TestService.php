@@ -53,29 +53,36 @@ final class TestService
         DatabaseAdapter $adapter
     ): \Generator
     {
-        $builder = insertQuery('customers', [
-                'id'    => $command->id,
-                'name'  => $command->name,
-                'email' => $command->email
-            ]
-        );
-
-        $compiledQuery = $builder->compile();
-
-        /** @var \ServiceBus\Storage\Common\Transaction $transaction */
-        $transaction = yield $adapter->transaction();
-
         try
         {
-            yield $transaction->execute($compiledQuery->sql(), $compiledQuery->params());
-            yield $context->delivery(new CustomerStored($command->id), $this->deliveryOptions);
-            yield $transaction->commit();
+            $builder = insertQuery('customers', [
+                    'id'    => $command->id,
+                    'name'  => $command->name,
+                    'email' => $command->email
+                ]
+            );
+
+            $compiledQuery = $builder->compile();
+
+            /** @var \ServiceBus\Storage\Common\Transaction $transaction */
+            $transaction = yield $adapter->transaction();
+
+            try
+            {
+                yield $transaction->execute($compiledQuery->sql(), $compiledQuery->params());
+                yield $context->delivery(new CustomerStored($command->id), $this->deliveryOptions);
+                yield $transaction->commit();
+            }
+            catch(\Throwable $throwable)
+            {
+                yield $transaction->rollback();
+
+                throw $throwable;
+            }
         }
         catch(\Throwable $throwable)
         {
-            yield $transaction->rollback();
-
-            throw $throwable;
+            $context->logContextThrowable($throwable);
         }
     }
 

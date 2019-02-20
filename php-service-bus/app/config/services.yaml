@@ -15,5 +15,5 @@ services:
       $transport: '@ServiceBus\Transport\Common\Transport'
       $processor: '@ServiceBus\EntryPoint\EntryPointProcessor'
       $logger: '@service_bus.logger'
-      $maxConcurrentTaskCount: 75
-      $awaitDelay: 20
+      $maxConcurrentTaskCount: 80
+      $awaitDelay: 10

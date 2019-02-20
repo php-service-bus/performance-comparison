@@ -10,9 +10,10 @@ use ServiceBus\Transport\Amqp\AmqpQueue;
 use ServiceBus\Transport\Common\QueueBind;
 use ServiceBus\Transport\Module\PhpInnacleTransportModule;
 use ServiceBus\Storage\Module\SqlStorageModule;
+use ServiceBus\Application\DependencyInjection\Compiler\Logger\StdOutLoggerCompilerPass;
 
 /** Use https://github.com/vishnubob/wait-for-it/blob/master/wait-for-it.sh instead sleep() function for RabbitMQ */
-\sleep(8);
+\sleep(10);
 
 include __DIR__ . '/../vendor/autoload.php';
 
@@ -23,6 +24,7 @@ include __DIR__ . '/../vendor/autoload.php';
 $container = \ServiceBus\Application\Bootstrap::withDotEnv(__DIR__ . '/../.env')
     ->useCustomCacheDirectory(__DIR__ . '/../cache')
     ->addExtensions(new \AppExtension())
+    ->addCompilerPasses(new StdOutLoggerCompilerPass(250))
     ->importParameters(['app.log_level' => (string) \getenv('LOG_LEVEL')])
     ->enableAutoImportMessageHandlers([__DIR__ . '/../src'])
     ->applyModules(
@@ -47,15 +49,22 @@ $kernel = new ServiceBusKernel($container);
 Loop::run(
     static function() use ($kernel, $schemaBuilder): \Generator
     {
-        $mainExchange = AmqpExchange::direct((string) \getenv('TRANSPORT_TOPIC'), true);
-        $mainQueue    = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
+        try
+        {
+            $mainExchange = AmqpExchange::direct((string) \getenv('TRANSPORT_TOPIC'), true);
+            $mainQueue    = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
 
-        yield $kernel->createQueue(
-            $mainQueue,
-            QueueBind::create($mainExchange, (string) \getenv('TRANSPORT_ROUTING_KEY'))
-        );
+            yield $kernel->createQueue(
+                $mainQueue,
+                QueueBind::create($mainExchange, (string) \getenv('TRANSPORT_ROUTING_KEY'))
+            );
 
-        yield $schemaBuilder->importFixture(__DIR__ . '/../app/customers.sql');
-        yield $kernel->run($mainQueue);
+            yield $schemaBuilder->importFixture(__DIR__ . '/../app/customers.sql');
+            yield $kernel->run($mainQueue);
+        }
+        catch(Throwable $throwable)
+        {
+            echo \PHP_EOL, $throwable->getMessage(), \PHP_EOL;
+        }
     }
 );

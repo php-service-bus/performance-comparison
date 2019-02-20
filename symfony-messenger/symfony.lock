@@ -200,6 +200,9 @@
     "symfony/serializer-pack": {
         "version": "v1.0.1"
     },
+    "symfony/stopwatch": {
+        "version": "v4.2.3"
+    },
     "symfony/var-exporter": {
         "version": "v4.2.0"
     },

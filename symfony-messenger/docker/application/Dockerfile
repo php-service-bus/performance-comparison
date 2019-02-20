@@ -1,7 +1,8 @@
-FROM php:7.2-cli-alpine
+FROM php:7.3-cli-alpine
 
 RUN set -xe \
-    && apk add --no-cache --virtual .persistent-deps autoconf postgresql-dev zlib-dev rabbitmq-c-dev make gcc  g++ \
+    && apk update \
+    && apk add autoconf libpq postgresql-dev zlib-dev rabbitmq-c-dev make gcc g++ libzip-dev \
     && docker-php-ext-install \
         bcmath \
         pcntl \
@@ -11,16 +12,8 @@ RUN set -xe \
         mbstring \
         sysvsem \
         zip \
-    && pecl download amqp-1.9.3 \
-        && tar zxvf amqp-1.9.3.tgz \
-        && cd amqp-1.9.3 \
-        && phpize \
-        && ./configure \
-        && make \
-        && make install \
-        && cd .. \
-        && rm -rf amqp-1.9.3.tgz amqp-1.9.3 \
-        && docker-php-ext-enable amqp \
+    && pecl install amqp \
+    && docker-php-ext-enable amqp \
 	&& rm -rf /tmp/* /var/cache/apk/*
 
 # Iconv fix
