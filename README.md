@@ -27,7 +27,7 @@ This test goal is to show the difference between synchronous and asynchronous in
 
 ## CPU Optimized Droplet ($160, 16GB/8CPUs)
 
-### [symfony/messenger](https://github.com/symfony/messenger) ([*video*](https://youtu.be/7TQOwBnj30A))
+#### [symfony/messenger](https://github.com/symfony/messenger) ([*video*](https://youtu.be/7TQOwBnj30A))
 * Time spent: ~ 3m30s
 * Queue filling: ~ 7.922 (MpS)
 * Command (message) processing: ~ 702 (MpS)
