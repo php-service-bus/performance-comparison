@@ -1732,16 +1732,16 @@
         },
         {
             "name": "php-service-bus/message-serializer",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/message-serializer.git",
-                "reference": "5380e619ce8481f3773069d3b54c0b7aa94fd6d7"
+                "reference": "7ad24d968f6fb6a3b86ae3350553220a469759c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/message-serializer/zipball/5380e619ce8481f3773069d3b54c0b7aa94fd6d7",
-                "reference": "5380e619ce8481f3773069d3b54c0b7aa94fd6d7",
+                "url": "https://api.github.com/repos/php-service-bus/message-serializer/zipball/7ad24d968f6fb6a3b86ae3350553220a469759c1",
+                "reference": "7ad24d968f6fb6a3b86ae3350553220a469759c1",
                 "shasum": ""
             },
             "require": {
@@ -1779,7 +1779,7 @@
                 "command-bus",
                 "messaging"
             ],
-            "time": "2019-02-15 10:05:51"
+            "time": "2019-02-20 14:25:07"
         },
         {
             "name": "php-service-bus/messages-router",
@@ -1832,16 +1832,16 @@
         },
         {
             "name": "php-service-bus/module-phpinnacle-transport",
-            "version": "v3.0.0",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/module-phpinnacle-transport.git",
-                "reference": "0235ac4e61605ca914249558cc4596d899ea715b"
+                "reference": "ec118154dd9677566af1e0ac8982f86fdf90d62f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/module-phpinnacle-transport/zipball/0235ac4e61605ca914249558cc4596d899ea715b",
-                "reference": "0235ac4e61605ca914249558cc4596d899ea715b",
+                "url": "https://api.github.com/repos/php-service-bus/module-phpinnacle-transport/zipball/ec118154dd9677566af1e0ac8982f86fdf90d62f",
+                "reference": "ec118154dd9677566af1e0ac8982f86fdf90d62f",
                 "shasum": ""
             },
             "require": {
@@ -1850,7 +1850,7 @@
                 "phpinnacle/ridge": "^0.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7",
+                "phpunit/phpunit": "^8",
                 "symfony/dependency-injection": "^v4.2",
                 "vimeo/psalm": "^v3"
             },
@@ -1880,20 +1880,20 @@
                 "messaging",
                 "rabbitmq"
             ],
-            "time": "2019-02-07 14:47:25"
+            "time": "2019-02-20 18:02:08"
         },
         {
             "name": "php-service-bus/module-storage-sql",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/module-storage-sql.git",
-                "reference": "24f2db3883d181c4debf5f09703c329305d0dec6"
+                "reference": "157679438626c2a4f3f1145642de432f93b2be2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/module-storage-sql/zipball/24f2db3883d181c4debf5f09703c329305d0dec6",
-                "reference": "24f2db3883d181c4debf5f09703c329305d0dec6",
+                "url": "https://api.github.com/repos/php-service-bus/module-storage-sql/zipball/157679438626c2a4f3f1145642de432f93b2be2c",
+                "reference": "157679438626c2a4f3f1145642de432f93b2be2c",
                 "shasum": ""
             },
             "require": {
@@ -1935,20 +1935,20 @@
                 "postgresql",
                 "sql"
             ],
-            "time": "2019-02-15 09:44:06"
+            "time": "2019-02-20 17:57:37"
         },
         {
             "name": "php-service-bus/service-bus",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/service-bus.git",
-                "reference": "210c6d4f56745ae750a2eceaf7e48ff5b8b2f15a"
+                "reference": "04e7c9bae7aa59ada93a32184134772696c330b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/service-bus/zipball/210c6d4f56745ae750a2eceaf7e48ff5b8b2f15a",
-                "reference": "210c6d4f56745ae750a2eceaf7e48ff5b8b2f15a",
+                "url": "https://api.github.com/repos/php-service-bus/service-bus/zipball/04e7c9bae7aa59ada93a32184134772696c330b1",
+                "reference": "04e7c9bae7aa59ada93a32184134772696c330b1",
                 "shasum": ""
             },
             "require": {
@@ -2006,7 +2006,7 @@
                 "messaging",
                 "saga"
             ],
-            "time": "2019-02-15 12:56:02"
+            "time": "2019-02-20 18:10:19"
         },
         {
             "name": "php-service-bus/storage-common",
@@ -2058,16 +2058,16 @@
         },
         {
             "name": "php-service-bus/storage-sql",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/storage-sql.git",
-                "reference": "280228b8ed61897dc106a1f1aaca4d20b42dd240"
+                "reference": "3c8427b1589b1e05ff4a75727807ba6338a6a602"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/storage-sql/zipball/280228b8ed61897dc106a1f1aaca4d20b42dd240",
-                "reference": "280228b8ed61897dc106a1f1aaca4d20b42dd240",
+                "url": "https://api.github.com/repos/php-service-bus/storage-sql/zipball/3c8427b1589b1e05ff4a75727807ba6338a6a602",
+                "reference": "3c8427b1589b1e05ff4a75727807ba6338a6a602",
                 "shasum": ""
             },
             "require": {
@@ -2114,7 +2114,7 @@
                 "postgresql",
                 "sql"
             ],
-            "time": "2019-02-15 09:36:30"
+            "time": "2019-02-20 16:19:51"
         },
         {
             "name": "php-service-bus/transport-amqp",
@@ -2216,16 +2216,16 @@
         },
         {
             "name": "php-service-bus/transport-phpinnacle",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/transport-phpinnacle.git",
-                "reference": "538135aa163bac7236b5b1b4d47a300ee144d1d2"
+                "reference": "6d02a280229ad4448f134253f4ee0b3b9507e94a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/transport-phpinnacle/zipball/538135aa163bac7236b5b1b4d47a300ee144d1d2",
-                "reference": "538135aa163bac7236b5b1b4d47a300ee144d1d2",
+                "url": "https://api.github.com/repos/php-service-bus/transport-phpinnacle/zipball/6d02a280229ad4448f134253f4ee0b3b9507e94a",
+                "reference": "6d02a280229ad4448f134253f4ee0b3b9507e94a",
                 "shasum": ""
             },
             "require": {
@@ -2264,7 +2264,7 @@
                 "messaging",
                 "rabbitmq"
             ],
-            "time": "2019-02-15 10:14:42"
+            "time": "2019-02-20 17:54:34"
         },
         {
             "name": "phpdocumentor/reflection-common",
