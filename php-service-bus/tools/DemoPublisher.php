@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 use function Amp\call;
 use Amp\Promise;
-use ServiceBus\Common\Messages\Message;
 use function ServiceBus\Common\uuid;
 use ServiceBus\MessageSerializer\MessageEncoder;
 use ServiceBus\MessageSerializer\Symfony\SymfonyMessageSerializer;
@@ -49,16 +48,16 @@ final class DemoPublisher
     /**
      * Send message to queue
      *
-     * @param Message     $message
+     * @param object     $message
      * @param string|null $topic
      * @param string|null $routingKey
      *
      * @return Promise
      */
-    public function sendMessage(Message $message, ?string $topic = null, ?string $routingKey = null): Promise
+    public function sendMessage(object $message, ?string $topic = null, ?string $routingKey = null): Promise
     {
         return call(
-            function(Message $message, ?string $topic, ?string $routingKey): \Generator
+            function(object $message, ?string $topic, ?string $routingKey): \Generator
             {
                 $topic      = $topic ?? (string) \getenv('SENDER_DESTINATION_TOPIC');
                 $routingKey = $routingKey ?? (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY');

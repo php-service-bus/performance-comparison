@@ -7,9 +7,9 @@
   "require": {
     "php": ">=7.2",
     "ext-json": "*",
-    "php-service-bus/service-bus": "^v3.0",
-    "php-service-bus/module-phpinnacle-transport": "^v3.0",
-    "php-service-bus/module-storage-sql": "^v3.0"
+    "php-service-bus/service-bus": "v3.0.7",
+    "php-service-bus/module-phpinnacle-transport": "v3.0.7",
+    "php-service-bus/module-storage-sql": "v3.0.7"
   },
   "require-dev": {
     "phpunit/phpunit": "^8",

@@ -12,14 +12,12 @@ declare(strict_types = 1);
 
 namespace App;
 
-use ServiceBus\Common\Messages\Command;
-
 /**
  * @property-read string $id
  * @property-read string $name
  * @property-read string $email
  */
-final class StoreCustomerCommand implements Command
+final class StoreCustomerCommand
 {
     /**
      * @var string

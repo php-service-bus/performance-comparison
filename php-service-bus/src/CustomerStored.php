@@ -11,12 +11,10 @@ declare(strict_types = 1);
 
 namespace App;
 
-use ServiceBus\Common\Messages\Event;
-
 /**
  * @property-read string $id
  */
-final class CustomerStored implements Event
+final class CustomerStored
 {
     /**
      * @var string
