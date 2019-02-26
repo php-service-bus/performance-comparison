@@ -28,6 +28,7 @@ final class DemoPublisher
      * @var Transport|null
      */
     private $transport;
+
     /**
      * @var MessageEncoder
      */
