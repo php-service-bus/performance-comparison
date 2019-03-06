@@ -11,6 +11,7 @@ use ServiceBus\Transport\Common\QueueBind;
 use ServiceBus\Transport\Module\PhpInnacleTransportModule;
 use ServiceBus\Storage\Module\SqlStorageModule;
 use ServiceBus\Application\DependencyInjection\Compiler\Logger\StdOutLoggerCompilerPass;
+use ServiceBus\Application\Bootstrap;
 
 /** Use https://github.com/vishnubob/wait-for-it/blob/master/wait-for-it.sh instead sleep() function for RabbitMQ */
 \sleep(10);
@@ -21,7 +22,7 @@ include __DIR__ . '/../vendor/autoload.php';
  * @noinspection PhpUnhandledExceptionInspection
  * @var \Symfony\Component\DependencyInjection\Container $container
  */
-$container = \ServiceBus\Application\Bootstrap::withDotEnv(__DIR__ . '/../.env')
+$container = Bootstrap::withDotEnv(__DIR__ . '/../.env')
     ->useCustomCacheDirectory(__DIR__ . '/../cache')
     ->addExtensions(new \AppExtension())
     ->addCompilerPasses(new StdOutLoggerCompilerPass(250))
