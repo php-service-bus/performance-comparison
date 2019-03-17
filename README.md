@@ -17,7 +17,7 @@ This test goal is to show the difference between synchronous and asynchronous in
 * PostgreSQL 11 (500 connections limit);
 * RabbitMQ 3.7.7;
 * PHP 7.3;
-* For [php-service-bus/service-bus](https://github.com/php-service-bus/service-bus) following PHP extensions were installed: raphf, pq, sockets, event.
+* For [php-service-bus/service-bus](https://github.com/php-service-bus/service-bus) following PHP extensions were installed: raphf, pq, sockets, event, ext-buffer.
 
 *MpS* - messages per second
 
