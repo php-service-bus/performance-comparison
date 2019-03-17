@@ -13,9 +13,6 @@ use ServiceBus\Storage\Module\SqlStorageModule;
 use ServiceBus\Application\DependencyInjection\Compiler\Logger\StdOutLoggerCompilerPass;
 use ServiceBus\Application\Bootstrap;
 
-/** Use https://github.com/vishnubob/wait-for-it/blob/master/wait-for-it.sh instead sleep() function for RabbitMQ */
-\sleep(10);
-
 include __DIR__ . '/../vendor/autoload.php';
 
 /**

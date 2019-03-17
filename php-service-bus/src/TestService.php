@@ -12,12 +12,14 @@ declare(strict_types = 1);
 
 namespace App;
 
+use Amp\Promise;
 use ServiceBus\Common\Endpoint\DeliveryOptions;
 use ServiceBus\Context\KernelContext;
 use ServiceBus\Endpoint\DefaultDeliveryOptions;
 use ServiceBus\Services\Annotations\CommandHandler;
 use ServiceBus\Services\Annotations\EventListener;
 use ServiceBus\Storage\Common\DatabaseAdapter;
+use ServiceBus\Storage\Common\QueryExecutor;
 use function ServiceBus\Storage\Sql\insertQuery;
 
 /**
@@ -43,7 +45,7 @@ final class TestService
      * @param KernelContext        $context
      * @param DatabaseAdapter      $adapter
      *
-     * @return \Generator
+     * @return Promise
      *
      * @throws \Throwable
      */
@@ -51,39 +53,26 @@ final class TestService
         StoreCustomerCommand $command,
         KernelContext $context,
         DatabaseAdapter $adapter
-    ): \Generator
+    ): Promise
     {
-        try
-        {
-            $builder = insertQuery('customers', [
-                    'id'    => $command->id,
-                    'name'  => $command->name,
-                    'email' => $command->email
-                ]
-            );
+        $deliveryOptions = $this->deliveryOptions;
 
-            $compiledQuery = $builder->compile();
-
-            /** @var \ServiceBus\Storage\Common\Transaction $transaction */
-            $transaction = yield $adapter->transaction();
-
-            try
+        return $adapter->transactional(
+            static function(QueryExecutor $executor) use ($command, $context, $deliveryOptions): \Generator
             {
-                yield $transaction->execute($compiledQuery->sql(), $compiledQuery->params());
-                yield $context->delivery(new CustomerStored($command->id), $this->deliveryOptions);
-                yield $transaction->commit();
-            }
-            catch(\Throwable $throwable)
-            {
-                yield $transaction->rollback();
+                $builder = insertQuery('customers', [
+                        'id'    => $command->id,
+                        'name'  => $command->name,
+                        'email' => $command->email
+                    ]
+                );
 
-                throw $throwable;
+                $compiledQuery = $builder->compile();
+
+                yield $executor->execute($compiledQuery->sql(), $compiledQuery->params());
+                yield $context->delivery(new CustomerStored($command->id), $deliveryOptions);
             }
-        }
-        catch(\Throwable $throwable)
-        {
-            $context->logContextThrowable($throwable);
-        }
+        );
     }
 
     /**

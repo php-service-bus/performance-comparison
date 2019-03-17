@@ -17,14 +17,18 @@ services:
       RABBITMQ_DEFAULT_PASS: admin123
 
   db:
-    image: postgres:11.1-alpine
+    build:
+      context: docker/postgres
     container_name: service-bus-db
     restart: always
+    volumes:
+      - ./docker/postgres/conf/postgresql.conf:/etc/postgresql.conf
     environment:
       POSTGRES_PASSWORD: 123456789
       POSTGRES_USER: demo
     ports:
       - 5432:5432
+    command: postgres -c config_file=/etc/postgresql.conf
 
   app:
     build:
@@ -36,7 +40,7 @@ services:
       - ./:/var/www
     environment:
       TRANSPORT_CONNECTION_DSN: amqp://admin:admin123@queue
-      DATABASE_CONNECTION_DSN: pgsql://demo:123456789@db/demo
+      DATABASE_CONNECTION_DSN: pgsql://demo:123456789@db/demo?max_connections=300
     links:
       - queue:queue
       - db:db

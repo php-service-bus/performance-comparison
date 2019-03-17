@@ -1,5 +1,7 @@
 #!/bin/ash
 
+sleep 10
+
 cd /var/www && composer install --optimize-autoloader --no-scripts --no-dev --no-suggest
 
 cd /var/www && tools/send_messages
