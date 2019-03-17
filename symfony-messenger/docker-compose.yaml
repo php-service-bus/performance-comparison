@@ -4,7 +4,7 @@ services:
 
   queue:
     build:
-      context: docker/rabbitmq
+      context: ../docker/rabbitmq
     container_name: symfony-comparison-queue
     restart: always
     ports:
@@ -18,11 +18,12 @@ services:
 
   db:
     build:
-      context: docker/postgres
+      context: ../docker/postgres
     container_name: service-bus-db
     restart: always
     volumes:
-      - ./docker/postgres/conf/postgresql.conf:/etc/postgresql.conf
+      - ../docker/postgres/conf/postgresql.conf:/etc/postgresql.conf
+      - ../docker/postgres/data/customers.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_PASSWORD: 123456789
       POSTGRES_USER: demo

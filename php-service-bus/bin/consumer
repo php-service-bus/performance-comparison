@@ -35,17 +35,11 @@ $container = Bootstrap::withDotEnv(__DIR__ . '/../.env')
     )
     ->boot();
 
-/**
- * @noinspection PhpUnhandledExceptionInspection
- * @var PostgreSQLSchemaBuilder $schemaBuilder
- */
-$schemaBuilder = $container->get('postgresql_schema_builder');
-
 /**  @noinspection PhpUnhandledExceptionInspection */
 $kernel = new ServiceBusKernel($container);
 
 Loop::run(
-    static function() use ($kernel, $schemaBuilder): \Generator
+    static function() use ($kernel): \Generator
     {
         try
         {
@@ -57,7 +51,6 @@ Loop::run(
                 QueueBind::create($mainExchange, (string) \getenv('TRANSPORT_ROUTING_KEY'))
             );
 
-            yield $schemaBuilder->importFixture(__DIR__ . '/../app/customers.sql');
             yield $kernel->run($mainQueue);
         }
         catch(Throwable $throwable)

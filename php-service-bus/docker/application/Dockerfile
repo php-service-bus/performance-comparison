@@ -3,6 +3,7 @@ FROM php:7.3-cli-alpine
 RUN set -xe \
     && apk update \
     && apk add  libpq postgresql-dev libevent-dev autoconf zlib-dev g++ libtool make libzip-dev git \
+    # Iconv fix
     && apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ gnu-libiconv \
     && docker-php-ext-install \
         bcmath \
@@ -12,8 +13,6 @@ RUN set -xe \
         zip \
         # escape bytea string
         pgsql \
-    # Iconv fix
-    && apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
     # sockets
     && docker-php-ext-install sockets \
     # event

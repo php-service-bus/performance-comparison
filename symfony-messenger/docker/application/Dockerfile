@@ -17,7 +17,7 @@ RUN set -xe \
 	&& rm -rf /tmp/* /var/cache/apk/*
 
 # Iconv fix
-RUN apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
+RUN apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # Composer install

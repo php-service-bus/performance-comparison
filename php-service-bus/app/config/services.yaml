@@ -1,10 +1,4 @@
 services:
-  # Generate PostgreSQL schema for service-bus components
-  postgresql_schema_builder:
-    class: PostgreSQLSchemaBuilder
-    public: true
-    arguments:
-      $adapter: '@ServiceBus\Storage\Common\DatabaseAdapter'
 
   service_bus.logger.handlers.stdout_handler:
     class: ServiceBus\Infrastructure\Logger\Handlers\StdOut\StdOutHandler

@@ -44,7 +44,6 @@ $kernel->boot();
 /** @var InteractionsHelper $interactionsHelper */
 $interactionsHelper = $kernel->getContainer()->get(InteractionsHelper::class);
 
-$interactionsHelper->createSchema();
 $interactionsHelper->createQueue();
 
 for($i = 0; $i < 100000; $i++)

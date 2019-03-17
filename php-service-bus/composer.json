@@ -28,7 +28,6 @@
     },
     "files": [
       "app/AppExtension.php",
-      "app/PostgreSQLSchemaBuilder.php",
       "tools/DemoPublisher.php"
     ]
   },
@@ -38,7 +37,6 @@
     },
     "files": [
       "app/AppExtension.php",
-      "app/PostgreSQLSchemaBuilder.php",
       "tools/DemoPublisher.php"
     ]
   },
