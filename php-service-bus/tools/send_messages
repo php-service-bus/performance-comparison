@@ -11,8 +11,6 @@ include __DIR__ . '/../vendor/autoload.php';
 
 $interactions = new \DemoPublisher(__DIR__ . '/../.env');
 
-sleep(5);
-
 Loop::run(
     function() use ($interactions): \Generator
     {
