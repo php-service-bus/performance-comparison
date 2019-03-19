@@ -36,7 +36,8 @@ RUN git clone https://github.com/phpinnacle/ext-buffer.git \
     && phpize \
     && ./configure \
     && make \
-    && make install
+    && make install \
+    && echo "extension=buffer.so" > /usr/local/etc/php/conf.d/buffer.ini
 
 # Composer install
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
