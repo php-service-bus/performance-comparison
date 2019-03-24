@@ -9,16 +9,19 @@ import (
 	"os"
 	"runtime"
 	"service-bus-benchmark/pkg/command/customer"
+	"strconv"
 	"sync"
 )
 
-var amqpConnection, dbConnection string
+var amqpConnection, dbConnection, dbConnectionsCount string
+var dbConnCount int
 
 func main() {
 	fmt.Println("MaxParallelism: ", MaxParallelism())
 	var errors []error
 	amqpConnection = os.Getenv("AMQP_CONNECTION")
 	dbConnection = os.Getenv("DB_CONNECTION")
+	dbConnectionsCount = os.Getenv("DB_CONNECTIONS_COUNT")
 
 	if amqpConnection == "" {
 		errors = append(errors, fmt.Errorf("AMQP_CONNECTION empty"))
@@ -26,6 +29,16 @@ func main() {
 
 	if dbConnection == "" {
 		errors = append(errors, fmt.Errorf("DB_CONNECTION empty"))
+	}
+
+	if dbConnectionsCount == "" {
+		errors = append(errors, fmt.Errorf("DB_CONNECTIONS_COUNT empty"))
+	}
+
+	if res, err := strconv.Atoi(dbConnectionsCount); err != nil {
+		errors = append(errors, fmt.Errorf("DB_CONNECTIONS_COUNT is not int"))
+	} else {
+		dbConnCount = res
 	}
 
 	if len(errors) > 0 {
@@ -44,8 +57,8 @@ func run() {
 
 	handleError(err)
 
-	db.SetMaxOpenConns(99)
-	db.SetMaxIdleConns(99)
+	db.SetMaxOpenConns(dbConnCount)
+	db.SetMaxIdleConns(dbConnCount)
 
 	err = db.Ping()
 
@@ -64,7 +77,7 @@ func run() {
 		go func(index int) {
 			channel, err := connection.Channel()
 			handleError(err)
-			handleError(channel.Qos(10,0, false))
+			handleError(channel.Qos(100,0, false))
 
 			defer channel.Close()
 
