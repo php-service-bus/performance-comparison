@@ -18,13 +18,9 @@ type Consumer struct {
 func NewConsumer(db *sql.DB, channel *amqp.Channel) *Consumer {
 	q, err := channel.QueueDeclare("test", true, false, false, false, nil)
 	handleError(err)
-	//err = channel.ExchangeDeclare("commands","direct", true, false, false, false, nil)
-	//handleError(err)
-	//err = channel.ExchangeDeclare("events","direct", true, false, false, false, nil)
-	//handleError(err)
-	//err = channel.QueueBind(q.Name, "command", "commands", false, nil)
-	//handleError(err)
-	//err = channel.QueueBind(q.Name, "event", "events", false, nil)
+	err = channel.ExchangeDeclare("events","direct", true, false, false, false, nil)
+	handleError(err)
+	err = channel.QueueBind(q.Name, "event", "events", false, nil)
 
 
 	return &Consumer{db: db, amqpChannel: channel, amqpQueue: &q}
@@ -40,6 +36,10 @@ func (c *Consumer) Consume(wg sync.WaitGroup, i int) {
 	handleError(err)
 
 	for d := range messages {
+		if msgType, ok := d.Headers["type"]; !ok || msgType != "command" {
+			handleError(d.Ack(false))
+			continue
+		}
 		var storeCmd StoreCommand
 		err := json.Unmarshal(d.Body, &storeCmd)
 
@@ -63,6 +63,25 @@ func (c *Consumer) handle(cmd StoreCommand) error {
 		handleError(tx.Rollback())
 		handleError(err)
 	}
+
+	storeEvent := NewCustomerStoredEvent(cmd.Id)
+	body, err := json.Marshal(storeEvent)
+	handleError(err)
+
+	err = c.amqpChannel.Publish(
+		"events",     // exchange
+		"event", // routing key
+		false,  // mandatory
+		false,  // immediate
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Headers: amqp.Table{
+				"type": "event",
+			},
+			Body:        body,
+		})
+
+	handleError(err)
 
 	handleError(tx.Commit())
 
