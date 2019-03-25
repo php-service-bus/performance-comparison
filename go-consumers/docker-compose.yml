@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  queue:
+    build:
+      context: docker/rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_VM_MEMORY_HIGH_WATERMARK: 2000MiB
+      RABBITMQ_ERLANG_COOKIE: f6fAjy5yes
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+
+  db:
+    image: postgres:11.1-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123456789
+      POSTGRES_USER: demo
+      POSTGRES_DB: tester
+    ports:
+      - 5432:5432
+    volumes:
+      - ./customers.sql:/docker-entrypoint-initdb.d/init.sql
+  app:
+    build:
+      dockerfile: docker/app/Dockerfile
+      context: .
+    environment:
+      AMQP_CONNECTION: amqp://admin:admin123@queue:5672/
+      DB_CONNECTION: host=db port=5432 user=demo password=123456789 dbname=tester sslmode=disable
+      DB_CONNECTIONS_COUNT: 99
+    command: ["/bin/bash", "-c", "sleep 60 && /bin/prep && /bin/tester"]
+    depends_on:
+      - db
+      - queue
