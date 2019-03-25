@@ -11,6 +11,7 @@ import (
 
 type Consumer struct {
 	db             *sql.DB
+	preparedInsert *sql.Stmt
 	amqpChannel    *amqp.Channel
 	amqpQueue      *amqp.Queue
 }
@@ -21,15 +22,17 @@ func NewConsumer(db *sql.DB, channel *amqp.Channel) *Consumer {
 	err = channel.ExchangeDeclare("events","direct", true, false, false, false, nil)
 	handleError(err)
 	err = channel.QueueBind(q.Name, "event", "events", false, nil)
+	stmt, err := db.Prepare("INSERT INTO customers (id,name,email) VALUES ($1,$2,$3);")
+	handleError(err)
 
-
-	return &Consumer{db: db, amqpChannel: channel, amqpQueue: &q}
+	return &Consumer{db: db, preparedInsert:stmt, amqpChannel: channel, amqpQueue: &q}
 }
 
 func (c *Consumer) Consume(wg sync.WaitGroup, i int) {
 	fmt.Printf("Consumer %d started...\n", i)
 	defer wg.Done()
 	defer fmt.Printf("Consumer %d done receiving...\n", i)
+
 
 	messages, err := c.amqpChannel.Consume(c.amqpQueue.Name, "", false, false, false, false, nil)
 
@@ -54,10 +57,12 @@ func (c *Consumer) Consume(wg sync.WaitGroup, i int) {
 
 func (c *Consumer) handle(cmd StoreCommand) error {
 	tx, err := c.db.Begin()
+	stmt := tx.Stmt(c.preparedInsert)
+	defer stmt.Close()
 
 	handleError(err)
 
-	_, err = tx.Exec("INSERT INTO customers (id,name,email) VALUES ($1,$2,$3);", cmd.Id, cmd.Name, cmd.Email)
+	_, err = stmt.Exec( cmd.Id, cmd.Name, cmd.Email)
 
 	if err != nil {
 		handleError(tx.Rollback())
