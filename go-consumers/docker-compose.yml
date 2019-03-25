@@ -1,9 +1,11 @@
 version: "3"
 
 services:
+
   queue:
     build:
-      context: docker/rabbitmq
+      context: ../docker/rabbitmq
+    container_name: comparison-golang-queue
     restart: always
     ports:
       - 5672:5672
@@ -15,25 +17,30 @@ services:
       RABBITMQ_DEFAULT_PASS: admin123
 
   db:
-    image: postgres:11.1-alpine
+    build:
+      context: ../docker/postgres
+    container_name: comparison-golang-db
     restart: always
+    volumes:
+      - ../docker/postgres/conf/postgresql.conf:/etc/postgresql.conf
+      - ../docker/postgres/data/customers.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_PASSWORD: 123456789
       POSTGRES_USER: demo
-      POSTGRES_DB: tester
     ports:
       - 5432:5432
-    volumes:
-      - ./customers.sql:/docker-entrypoint-initdb.d/init.sql
+    command: postgres -c config_file=/etc/postgresql.conf
+
   app:
     build:
       dockerfile: docker/app/Dockerfile
       context: .
+    container_name: comparison-golang-consumer
     environment:
       AMQP_CONNECTION: amqp://admin:admin123@queue:5672/
-      DB_CONNECTION: host=db port=5432 user=demo password=123456789 dbname=tester sslmode=disable
-      DB_CONNECTIONS_COUNT: 99
-    command: ["/bin/bash", "-c", "sleep 60 && /bin/prep && /bin/tester"]
+      DB_CONNECTION: host=db port=5432 user=demo password=123456789 dbname=demo sslmode=disable
+      DB_CONNECTIONS_COUNT: 250
+    command: ["/bin/bash", "-c", "sleep 10 && /bin/prep && /bin/tester"]
     depends_on:
       - db
       - queue
