@@ -31,7 +31,8 @@ RUN set -xe \
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so phpalpine
 
 # https://github.com/phpinnacle/ext-buffer
-RUN git clone https://github.com/phpinnacle/ext-buffer.git \
+RUN echo "f80bbb8ea85346bf6082727fdf58857c59649da2" \
+    && git clone https://github.com/phpinnacle/ext-buffer.git \
     && cd ext-buffer \
     && phpize \
     && ./configure \

@@ -41,7 +41,7 @@ services:
       - ./:/var/www
     environment:
       TRANSPORT_CONNECTION_DSN: amqp://admin:admin123@queue
-      DATABASE_CONNECTION_DSN: pgsql://demo:123456789@db/demo?max_connections=300
+      DATABASE_CONNECTION_DSN: pgsql://demo:123456789@db/demo?max_connections=250
     links:
       - queue:queue
       - db:db
