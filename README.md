@@ -9,7 +9,7 @@ This test goal is to show the difference between synchronous and asynchronous in
 * Received event does not induce any load - it is just ACKed.
 
 ## Conditions
-* Cloud: Digital Ocean droplets with pre-installed docker;
+* **Intel i7 8700, 16gb DDR4, SSD** 
 * All the logging is disabled;
 * Every application has only 1 instance (single process);
 * The description shows **the peak values** visible on the graph. **Real values below, I recommend to watch videos** of a specific test
@@ -25,57 +25,12 @@ This test goal is to show the difference between synchronous and asynchronous in
 
 # Testing
 
-## CPU Optimized Droplet ($160, 16GB/8CPUs)
+#### [symfony/messenger](https://github.com/symfony/messenger) (Time spent: ~ **1m45s**)
+![symfony/messenger](https://github.com/php-service-bus/performance-comparison/tree/v3.1/results/symfony(1.45).gif)
 
-#### [symfony/messenger](https://github.com/symfony/messenger) ([*video*](https://youtu.be/7TQOwBnj30A))
-* Time spent: ~ 3m30s
-* Queue filling: ~ 7.922 (MpS)
-* Command (message) processing: ~ 702 (MpS)
-* Event (message) ACKing: ~ 2802 (MpS)
+#### [php-service-bus/service-bus](https://github.com/php-service-bus/service-bus) (Time spent: ~ **55s**)
+![symfony/messenger](https://github.com/php-service-bus/performance-comparison/tree/v3.1/results/service-bus(0.55).gif)
 
-#### [php-service-bus/service-bus](https://github.com/php-service-bus/service-bus) ([*video*](https://youtu.be/SpkVH3u0Pp4))
-* Time spent: ~ 1m30s
-* Queue filling: ~ 9.433 (MpS)
-* Command (message) processing: ~ 2.088 (MpS)
-* Event (message) ACKing: ~ 6.436 (MpS)
+#### Golang (Time spent: ~ **20s**)
+![symfony/messenger](https://github.com/php-service-bus/performance-comparison/tree/v3.1/results/golang(0.20).gif)
 
-## CPU Optimized Droplet ($40, 4GB/2CPUs)
-
-#### [symfony/messenger](https://github.com/symfony/messenger) ([*video*](https://youtu.be/5KtXdAuiCuU))
-* Time spent: ~ 3m15s
-* Queue filling: ~ 11.268 (MpS)
-* Command (message) processing: ~ 721 (MpS) 
-* Event (message) ACKing: ~ 2.882 (MpS)
-
-#### [php-service-bus/service-bus](https://github.com/php-service-bus/service-bus) ([*video*](https://youtu.be/5AxT8LIb5Rg))
-* Time spent: ~ 1m55s
-* Queue filling: ~ 13.004 (MpS)
-* Command (message) processing: ~ 1.574 (MpS)
-* Event (message) ACKing: ~ 5.776 (MpS)
-
-## Standard Droplet ($40, 8GB/4CPUs)
-#### [symfony/messenger](https://github.com/symfony/messenger) ([*video*](https://youtu.be/lY8IKHOQNqo))
-* Time spent: ~ 4m25s
-* Queue filling: ~ 7.898 (MpS)
-* Command (message) processing: ~ 616 (MpS)
-* Event (message) ACKing: ~ 2.217 (MpS)
-
-#### [php-service-bus/service-bus](https://github.com/php-service-bus/service-bus) ([*video*](https://youtu.be/UNb15eKUbN4))
-* Time spent: ~ 1m53s
-* Queue filling: ~ 11.173 (MpS)
-* Command (message) processing: ~ 1.442 (MpS)
-* Event (message) ACKing: ~ 5.013 (MpS)
-
-## Standard Droplet ($5, 1GB/1CPU)
-
-#### [symfony/messenger](https://github.com/symfony/messenger) ([*video*](https://youtu.be/a55FyvB0fSA))
-* Time spent: ~5m
-* Queue filling: ~ 4.956 (MpS)
-* Command (message) processing: ~ 532 (MpS)
-* Event (message) ACKing: ~ 1.804 (MpS)
-
-#### [php-service-bus/service-bus](https://github.com/php-service-bus/service-bus) ([*video*](https://youtu.be/l5ubGgQXFPE))
-* Time spent: ~3m52s
-* Queue filling: ~ 6.218 (MpS)
-* Command (message) processing: ~ 684 (MpS)
-* Event (message) ACKing: ~ 2.560 (MpS)
