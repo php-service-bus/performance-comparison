@@ -12,7 +12,6 @@ This test goal is to show the difference between synchronous and asynchronous in
 * **Intel i7 8700, 16gb DDR4, SSD** 
 * All the logging is disabled;
 * Every application has only 1 instance (single process);
-* The description shows **the peak values** visible on the graph. **Real values below, I recommend to watch videos** of a specific test
 * I did not found how to change QoS settings in [symfony/messenger](https://github.com/symfony/messenger) so in both apps default ones are used;
 * PostgreSQL 11 (500 connections limit);
 * RabbitMQ 3.7.7;
