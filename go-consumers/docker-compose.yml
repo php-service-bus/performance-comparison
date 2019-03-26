@@ -31,16 +31,16 @@ services:
       - 5432:5432
     command: postgres -c config_file=/etc/postgresql.conf
 
-#  app:
-#    build:
-#      dockerfile: docker/app/Dockerfile
-#      context: .
-#    container_name: comparison-golang-consumer
-#    environment:
-#      AMQP_CONNECTION: amqp://admin:admin123@queue:5672/
-#      DB_CONNECTION: host=db port=5432 user=demo password=123456789 dbname=demo sslmode=disable
-#      DB_CONNECTIONS_COUNT: 250
-#    command: ["/bin/bash", "-c", "sleep 10 && /bin/prep && /bin/tester"]
-#    depends_on:
-#      - db
-#      - queue
+  app:
+    build:
+      dockerfile: docker/app/Dockerfile
+      context: .
+    container_name: comparison-golang-consumer
+    environment:
+      AMQP_CONNECTION: amqp://admin:admin123@queue:5672/
+      DB_CONNECTION: host=db port=5432 user=demo password=123456789 dbname=demo sslmode=disable
+      DB_CONNECTIONS_COUNT: 250
+    command: ["/bin/bash", "-c", "sleep 10 && /bin/prep && /bin/tester"]
+    depends_on:
+      - db
+      - queue
