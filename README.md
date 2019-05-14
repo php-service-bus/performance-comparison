@@ -26,6 +26,8 @@ This test goal is to show the difference between synchronous and asynchronous in
 
 # Testing
 
+*The estimated execution time is indicated (considering the delay in updating the schedule).*
+
 #### [symfony/messenger](https://github.com/symfony/messenger) (Time spent: ~ **1m45s**)
 ![symfony/messenger](https://github.com/php-service-bus/performance-comparison/blob/v3.2/results/symfony(1.45).gif)
 
