@@ -1,8 +1,8 @@
-FROM php:7.3-cli-alpine
+FROM php:7.4-cli-alpine
 
 RUN set -xe \
     && apk update \
-    && apk add autoconf libpq postgresql-dev zlib-dev rabbitmq-c-dev make gcc g++ libzip-dev \
+    && apk add oniguruma-dev autoconf libpq postgresql-dev zlib-dev rabbitmq-c-dev make gcc g++ libzip-dev \
     && docker-php-ext-install \
         bcmath \
         pcntl \
@@ -27,3 +27,5 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
    && composer clear-cache
 
 COPY ./tools/* /tools/
+
+USER '1000'
