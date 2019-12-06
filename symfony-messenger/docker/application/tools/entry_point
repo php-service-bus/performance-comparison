@@ -7,4 +7,4 @@ sleep 15
 echo Filling the queue with messages
 
 cd /var/www && bin/send_messages
-cd /var/www && bin/console messenger:consume-messages amqp
+cd /var/www && bin/console messenger:consume

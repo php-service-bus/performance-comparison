@@ -74,6 +74,9 @@
     "ocramius/proxy-manager": {
         "version": "2.2.2"
     },
+    "php": {
+        "version": "7.3"
+    },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
     },
@@ -100,6 +103,9 @@
     },
     "symfony/cache": {
         "version": "v4.1.8"
+    },
+    "symfony/cache-contracts": {
+        "version": "v2.0.1"
     },
     "symfony/config": {
         "version": "v4.1.8"
@@ -128,8 +134,14 @@
     "symfony/dotenv": {
         "version": "v4.1.8"
     },
+    "symfony/error-handler": {
+        "version": "v4.4.1"
+    },
     "symfony/event-dispatcher": {
         "version": "v4.1.8"
+    },
+    "symfony/event-dispatcher-contracts": {
+        "version": "v1.1.7"
     },
     "symfony/filesystem": {
         "version": "v4.1.8"
@@ -173,11 +185,20 @@
             "ref": "f11dfa18618a8a5dd853ea3a302db2e0557e031c"
         }
     },
+    "symfony/mime": {
+        "version": "v4.4.1"
+    },
     "symfony/orm-pack": {
         "version": "v1.0.5"
     },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.13.1"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"
+    },
+    "symfony/polyfill-php72": {
+        "version": "v1.13.1"
     },
     "symfony/property-access": {
         "version": "v4.1.8"
@@ -202,6 +223,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.2.3"
+    },
+    "symfony/var-dumper": {
+        "version": "v4.4.1"
     },
     "symfony/var-exporter": {
         "version": "v4.2.0"
