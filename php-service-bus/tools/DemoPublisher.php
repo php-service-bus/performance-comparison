@@ -49,7 +49,7 @@ final class DemoPublisher
     /**
      * Send message to queue
      *
-     * @param object     $message
+     * @param object      $message
      * @param string|null $topic
      * @param string|null $routingKey
      *
@@ -67,7 +67,7 @@ final class DemoPublisher
                 $transport = yield from $this->transport();
 
                 yield $transport->send(
-                    OutboundPackage::create(
+                    new OutboundPackage(
                         $this->encoder->encode($message),
                         [],
                         new AmqpTransportLevelDestination($topic, $routingKey),
@@ -80,8 +80,6 @@ final class DemoPublisher
     }
 
     /**
-     * @noinspection PhpDocMissingThrowsInspection
-     *
      * @return \Generator
      *
      * @throws \Throwable
@@ -101,7 +99,7 @@ final class DemoPublisher
 
             yield $this->transport->createQueue(
                 $mainQueue,
-                QueueBind::create($mainExchange, (string) \getenv('TRANSPORT_ROUTING_KEY'))
+                new QueueBind($mainExchange, (string) \getenv('TRANSPORT_ROUTING_KEY'))
             );
         }
 

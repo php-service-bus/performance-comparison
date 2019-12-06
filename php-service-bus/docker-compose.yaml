@@ -46,3 +46,5 @@ services:
       - queue:queue
       - db:db
     command: ["/tools/boot"]
+    env_file:
+      - .env

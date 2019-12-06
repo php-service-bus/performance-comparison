@@ -11,9 +11,6 @@ declare(strict_types = 1);
 
 namespace App;
 
-/**
- * @property-read string $id
- */
 final class CustomerStored
 {
     /**

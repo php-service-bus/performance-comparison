@@ -12,7 +12,7 @@ include __DIR__ . '/../vendor/autoload.php';
 $interactions = new \DemoPublisher(__DIR__ . '/../.env');
 
 Loop::run(
-    function() use ($interactions): \Generator
+    static function() use ($interactions): \Generator
     {
         try
         {

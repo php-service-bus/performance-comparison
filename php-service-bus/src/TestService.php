@@ -15,7 +15,7 @@ namespace App;
 use Amp\Promise;
 use ServiceBus\Common\Endpoint\DeliveryOptions;
 use ServiceBus\Context\KernelContext;
-use ServiceBus\Endpoint\DefaultDeliveryOptions;
+use ServiceBus\Endpoint\Options\DefaultDeliveryOptions;
 use ServiceBus\Services\Annotations\CommandHandler;
 use ServiceBus\Services\Annotations\EventListener;
 use ServiceBus\Storage\Common\DatabaseAdapter;
