@@ -28,10 +28,6 @@ final class StoreCustomerHandler
      */
     private $connection;
 
-    /**
-     * @param MessageBusInterface $bus
-     * @param Connection          $connection
-     */
     public function __construct(MessageBusInterface $bus, Connection $connection)
     {
         $this->bus        = $bus;
@@ -39,10 +35,6 @@ final class StoreCustomerHandler
     }
 
     /**
-     * @param StoreCustomer $message
-     *
-     * @return void
-     *
      * @throws \Doctrine\DBAL\ConnectionException
      * @throws \Throwable
      */

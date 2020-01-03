@@ -5,7 +5,7 @@ services:
   queue:
     build:
       context: ../docker/rabbitmq
-    container_name: symfony-comparison-queue
+    container_name: bench-symfony-comparison-queue
     restart: always
     ports:
       - 5672:5672
@@ -19,7 +19,7 @@ services:
   db:
     build:
       context: ../docker/postgres
-    container_name: service-bus-db
+    container_name: bench-symfony-comparison-db
     restart: always
     volumes:
       - ../docker/postgres/conf/postgresql.conf:/etc/postgresql.conf
@@ -34,7 +34,7 @@ services:
   app:
     build:
       context: docker/application
-    container_name: symfony-comparison-backend
+    container_name: bench-symfony-comparison-backend
     working_dir: /var/www
     restart: always
     volumes:

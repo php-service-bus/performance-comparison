@@ -5,7 +5,7 @@ services:
   queue:
     build:
       context: ../docker/rabbitmq
-    container_name: service-bus-queue
+    container_name: bench-service-bus-queue
     restart: always
     ports:
       - 5672:5672
@@ -19,7 +19,7 @@ services:
   db:
     build:
       context: ../docker/postgres
-    container_name: service-bus-db
+    container_name: bench-service-bus-db
     restart: always
     volumes:
       - ../docker/postgres/conf/postgresql.conf:/etc/postgresql.conf
@@ -34,7 +34,7 @@ services:
   app:
     build:
       context: docker/application
-    container_name: service-bus-consumer
+    container_name: bench-service-bus-consumer
     working_dir: /var/www
     restart: always
     volumes:

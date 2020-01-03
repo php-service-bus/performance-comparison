@@ -29,11 +29,6 @@ final class StoreCustomerCommand
      */
     public $email;
 
-    /**
-     * @param string $id
-     * @param string $name
-     * @param string $email
-     */
     public function __construct(string $id, string $name, string $email)
     {
         $this->id    = $id;

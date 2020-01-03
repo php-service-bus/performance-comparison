@@ -7,13 +7,9 @@
   "require": {
     "php": ">=7.2",
     "ext-json": "*",
-    "php-service-bus/service-bus": "v4.0.x-dev",
+    "php-service-bus/service-bus": "v4.0.*",
     "php-service-bus/module-phpinnacle-transport": "v4.0.*",
     "php-service-bus/module-storage-sql": "v4.0.*"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^8",
-    "vimeo/psalm": "^3"
   },
   "config": {
     "preferred-install": {
@@ -29,23 +25,6 @@
     "files": [
       "app/AppExtension.php",
       "tools/DemoPublisher.php"
-    ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "App\\Tests\\": "tests/"
-    },
-    "files": [
-      "app/AppExtension.php",
-      "tools/DemoPublisher.php"
-    ]
-  },
-  "scripts": {
-    "psalm": "./vendor/bin/psalm --config=psalm.xml",
-    "phpunit": "phpunit --configuration phpunit.xml --verbose",
-    "coverage": "phpunit --configuration phpunit.xml --coverage-html ./coverage --verbose",
-    "test": [
-      "@phpunit"
     ]
   }
 }

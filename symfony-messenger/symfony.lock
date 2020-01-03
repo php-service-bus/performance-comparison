@@ -75,7 +75,7 @@
         "version": "2.2.2"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -200,6 +200,9 @@
     "symfony/polyfill-php72": {
         "version": "v1.13.1"
     },
+    "symfony/polyfill-php73": {
+        "version": "v1.13.1"
+    },
     "symfony/property-access": {
         "version": "v4.1.8"
     },
@@ -220,6 +223,9 @@
     },
     "symfony/serializer-pack": {
         "version": "v1.0.1"
+    },
+    "symfony/service-contracts": {
+        "version": "v2.0.1"
     },
     "symfony/stopwatch": {
         "version": "v4.2.3"

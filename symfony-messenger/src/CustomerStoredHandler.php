@@ -13,7 +13,6 @@ declare(strict_types = 1);
 
 namespace App;
 
-
 use Psr\Log\LoggerInterface;
 
 final class CustomerStoredHandler
@@ -23,14 +22,10 @@ final class CustomerStoredHandler
      */
     private $logger;
 
-    /**
-     * @param LoggerInterface     $logger
-     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
-
 
     public function __invoke(CustomerStored $message)
     {
