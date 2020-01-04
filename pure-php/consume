@@ -26,11 +26,13 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $queue->consume(
     static function(AMQPEnvelope $envelope) use ($queue, $pdo, $exchange): void
     {
-        try
-        {
-            $data = json_decode($envelope->getBody(), true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($envelope->getBody(), true, 512, JSON_THROW_ON_ERROR);
 
-            if($data['type'] === 'store')
+        if($data['type'] === 'store')
+        {
+            $pdo->beginTransaction();
+
+            try
             {
                 $statement = $pdo->prepare('INSERT INTO customers (id, name, email) VALUES (?, ?, ?)');
                 $statement->execute([$data['payload']['id'], $data['payload']['name'], $data['payload']['email']]);
@@ -38,13 +40,17 @@ $queue->consume(
                 $exchange->publish(json_encode([
                     'type' => 'ack'
                 ]));
-            }
 
-            $queue->ack($envelope->getDeliveryTag());
+                $pdo->commit();
+            }
+            catch(Throwable $throwable)
+            {
+                $pdo->rollBack();
+
+                throw $throwable;
+            }
         }
-        catch(Throwable $throwable)
-        {
-            exit($throwable->getMessage());
-        }
+
+        $queue->ack($envelope->getDeliveryTag());
     }
 );
