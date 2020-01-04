@@ -7,7 +7,11 @@ framework:
         context: { }
 
     transports:
-      amqp: '%env(MESSENGER_TRANSPORT_DSN)%'
+      amqp:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          exchange: { type: direct }
+          auto_setup: false
 
     routing:
       App\StoreCustomer: amqp

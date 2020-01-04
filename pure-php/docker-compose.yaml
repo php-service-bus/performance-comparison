@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+
+  queue:
+    build:
+      context: ../docker/rabbitmq
+    container_name: bench-php-comparison-queue
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_VM_MEMORY_HIGH_WATERMARK: 2000MiB
+      RABBITMQ_ERLANG_COOKIE: f6fAjy5yes
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+
+  db:
+    build:
+      context: ../docker/postgres
+    container_name: bench-php-comparison-db
+    restart: always
+    volumes:
+      - ../docker/postgres/conf/postgresql.conf:/etc/postgresql.conf
+      - ../docker/postgres/data/customers.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_PASSWORD: 123456789
+      POSTGRES_USER: demo
+    ports:
+      - 5432:5432
+    command: postgres -c config_file=/etc/postgresql.conf
+
+  app:
+    build:
+      context: ./docker/application
+    container_name: bench-php-comparison-backend
+    working_dir: /var/www
+    restart: always
+    volumes:
+      - ./:/var/www
+    links:
+      - queue:queue
+    command: ["/tools/entry_point"]

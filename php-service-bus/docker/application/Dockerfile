@@ -40,6 +40,12 @@ RUN echo "f80bbb8ea85346bf6082727fdf58857c59649da2" \
     && make install \
     && echo "extension=buffer.so" > /usr/local/etc/php/conf.d/buffer.ini
 
+# Composer install
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+   && chmod +x /usr/local/bin/composer \
+   && composer global require hirak/prestissimo \
+   && composer clear-cache
+
 COPY ./tools/* /tools/
 
 USER '1000'

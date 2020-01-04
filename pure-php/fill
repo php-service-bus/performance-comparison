@@ -1,0 +1,50 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+$connection = new AMQPConnection(['host' => 'queue', 'login' => 'admin', 'password' => 'admin123']);
+$connection->connect();
+
+$channel = new AMQPChannel($connection);
+
+$exchange = new AMQPExchange($channel);
+$exchange->setName('messages');
+$exchange->setType(AMQP_EX_TYPE_DIRECT);
+$exchange->setFlags(AMQP_DURABLE);
+$exchange->declare();
+
+$queue = new AMQPQueue($channel);
+$queue->setName('messages');
+$queue->setFlags(AMQP_DURABLE);
+$queue->declare();
+
+$queue->bind('messages', '');
+
+for($i = 0; $i < 100000; $i++)
+{
+    $payload = json_encode([
+        'type'    => 'store',
+        'payload' => [
+            'id'    => uuid(),
+            'name'  => 'name_' . $i,
+            'email' => 'name@qwerty.root'
+        ]
+    ]);
+
+    $exchange->publish($payload);
+}
+
+$channel->close();
+$connection->disconnect();
+
+function uuid(): string
+{
+    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0x0fff) | 0x4000,
+        mt_rand(0, 0x3fff) | 0x8000,
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+    );
+}

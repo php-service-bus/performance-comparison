@@ -1,0 +1,6 @@
+#!/bin/ash
+
+sleep 15
+
+php ./fill
+php ./consume

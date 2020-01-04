@@ -33,7 +33,7 @@ final class InteractionsHelper
     {
         $exchange = $this->transport->exchange();
         $exchange->setName('messages');
-        $exchange->setType(\AMQP_EX_TYPE_FANOUT);
+        $exchange->setType(\AMQP_EX_TYPE_DIRECT);
         $exchange->setFlags(\AMQP_DURABLE);
 
         $exchange->declareExchange();

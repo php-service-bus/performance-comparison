@@ -1,0 +1,50 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+$connection = new AMQPConnection(['host' => 'queue', 'login' => 'admin', 'password' => 'admin123']);
+$connection->connect();
+
+$channel = new AMQPChannel($connection);
+
+$exchange = new AMQPExchange($channel);
+$exchange->setName('messages');
+$exchange->setType(AMQP_EX_TYPE_DIRECT);
+$exchange->setFlags(AMQP_DURABLE);
+$exchange->declare();
+
+$queue = new AMQPQueue($channel);
+$queue->setName('messages');
+$queue->setFlags(AMQP_DURABLE);
+$queue->bind('messages', '');
+$queue->declare();
+
+$pdo = new PDO('pgsql:host=db;port=5432;dbname=demo;user=demo;password=123456789');
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$queue->consume(
+    static function(AMQPEnvelope $envelope) use ($queue, $pdo, $exchange): void
+    {
+        try
+        {
+            $data = json_decode($envelope->getBody(), true, 512, JSON_THROW_ON_ERROR);
+
+            if($data['type'] === 'store')
+            {
+                $statement = $pdo->prepare('INSERT INTO customers (id, name, email) VALUES (?, ?, ?)');
+                $statement->execute([$data['payload']['id'], $data['payload']['name'], $data['payload']['email']]);
+
+                $exchange->publish(json_encode([
+                    'type' => 'ack'
+                ]));
+            }
+
+            $queue->ack($envelope->getDeliveryTag());
+        }
+        catch(Throwable $throwable)
+        {
+            exit($throwable->getMessage());
+        }
+    }
+);
