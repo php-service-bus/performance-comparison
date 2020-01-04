@@ -27,7 +27,7 @@ This test goal is to show the difference between synchronous and asynchronous in
 *The estimated execution time is indicated (considering the delay in updating the schedule).*
 
 #### Pure php (Time spent: ~ **4m20s**)
-* Without any dependencies!
+*Without any dependencies!*
 ![pure](https://github.com/php-service-bus/performance-comparison/blob/v4.0/results/pure4.20.gif)
 
 #### [symfony/messenger](https://github.com/symfony/messenger) (Time spent: ~ **7m25s**)
