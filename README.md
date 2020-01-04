@@ -36,5 +36,5 @@ This test goal is to show the difference between synchronous and asynchronous in
 #### [php-service-bus/service-bus](https://github.com/php-service-bus/service-bus) (Time spent: ~ **1m**)
 ![symfony/messenger](https://github.com/php-service-bus/performance-comparison/blob/v4.0/results/service-bus1m.gif)
 
-#### Golang (Time spent: ~ **0m 20s**)
+#### Golang (Time spent: ~ **0m 22s**)
 ![symfony/messenger](https://github.com/php-service-bus/performance-comparison/blob/v4.0/results/golang22.gif)
