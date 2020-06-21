@@ -2,19 +2,19 @@
   "type": "project",
   "license": "proprietary",
   "require": {
-    "php": "^7.2",
+    "php": "^7.4",
     "ext-ctype": "*",
     "ext-iconv": "*",
-    "symfony/console": "v4.4.*",
-    "symfony/flex": "^1.1",
-    "symfony/framework-bundle": "v4.4.*",
-    "symfony/messenger": "v4.4.*",
-    "symfony/serializer-pack": "^1.0",
-    "symfony/dotenv": "v4.4.*",
+    "symfony/amqp-messenger": "5.1.*",
+    "symfony/console": "v5.1.*",
+    "symfony/dotenv": "v5.1.*",
+    "symfony/flex": "1.8.*",
+    "symfony/framework-bundle": "v5.1.*",
+    "symfony/messenger": "v5.1.*",
     "symfony/orm-pack": "^1.0",
-    "symfony/yaml": "v4.4.*",
-    "ramsey/uuid": "v3.8.*",
-    "doctrine/doctrine-cache-bundle": "v1.4.*"
+    "symfony/serializer-pack": "^1.0",
+    "symfony/uid": "v5.1.*",
+    "symfony/yaml": "v5.1.*"
   },
   "require-dev": {
   },
@@ -60,7 +60,7 @@
   "extra": {
     "symfony": {
       "allow-contrib": false,
-      "require": "4.4.*"
+      "require": "5.1.*"
     }
   }
 }

@@ -33,7 +33,7 @@ final class TestService
 
     public function __construct()
     {
-        $this->deliveryOptions = DefaultDeliveryOptions::nonPersistent();
+        $this->deliveryOptions = DefaultDeliveryOptions::create();
     }
 
 

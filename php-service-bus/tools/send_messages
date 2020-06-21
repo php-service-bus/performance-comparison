@@ -6,32 +6,63 @@ declare(strict_types = 1);
 use App\StoreCustomerCommand;
 use function ServiceBus\Common\uuid;
 use Amp\Loop;
+use ServiceBus\MessageSerializer\Symfony\SymfonyMessageSerializer;
+use ServiceBus\Transport\Amqp\AmqpConnectionConfiguration;
+use ServiceBus\Transport\Amqp\AmqpExchange;
+use ServiceBus\Transport\Amqp\AmqpQueue;
+use ServiceBus\Transport\Amqp\AmqpTransportLevelDestination;
+use ServiceBus\Transport\Common\Package\OutboundPackage;
+use ServiceBus\Transport\Common\QueueBind;
+use ServiceBus\Transport\Amqp\PhpInnacle\PhpInnacleTransport;
 
 include __DIR__ . '/../vendor/autoload.php';
 
-$interactions = new \DemoPublisher(__DIR__ . '/../.env');
+$encoder    = new SymfonyMessageSerializer();
+$topic      = $topic ?? (string) \getenv('SENDER_DESTINATION_TOPIC');
+$routingKey = $routingKey ?? (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY');
 
 Loop::run(
-    static function() use ($interactions): \Generator
+    static function() use ($encoder, $topic, $routingKey): \Generator
     {
+        $transport = new PhpInnacleTransport(
+            new AmqpConnectionConfiguration(\getenv('TRANSPORT_CONNECTION_DSN'))
+        );
+
+        yield $transport->connect();
+
+        $mainExchange = AmqpExchange::direct((string) \getenv('TRANSPORT_TOPIC'), true);
+        $mainQueue    = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
+
+        yield $transport->createQueue(
+            $mainQueue,
+            new QueueBind($mainExchange, (string) \getenv('TRANSPORT_ROUTING_KEY'))
+        );
+
         try
         {
             for($i = 0; $i < 100000; $i++)
             {
-                yield $interactions->sendMessage(
-                    new StoreCustomerCommand(uuid(), 'name_' . $i, 'name@qwerty.root')
+                yield $transport->send(
+                    new OutboundPackage(
+                        $encoder->encode(
+                            new StoreCustomerCommand(uuid(), 'name_' . $i, 'name@qwerty.root')
+                        ),
+                        [],
+                        new AmqpTransportLevelDestination($topic, $routingKey),
+                        uuid(),
+                        true
+                    )
                 );
             }
         }
         catch(Throwable $throwable)
         {
             echo $throwable->getMessage(), \PHP_EOL;
+            exit;
         }
 
         Loop::stop();
     }
 );
-
-unset($interactions);
 
 echo 'Filling in the message queue is completed', \PHP_EOL;

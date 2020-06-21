@@ -5,11 +5,9 @@
   "license": "MIT",
   "minimum-stability": "stable",
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.4",
     "ext-json": "*",
-    "php-service-bus/service-bus": "v4.0.*",
-    "php-service-bus/module-phpinnacle-transport": "v4.0.*",
-    "php-service-bus/module-storage-sql": "v4.0.*"
+    "php-service-bus/service-bus": "v4.1.*"
   },
   "config": {
     "preferred-install": {
@@ -23,8 +21,7 @@
       "App\\": "src/"
     },
     "files": [
-      "app/AppExtension.php",
-      "tools/DemoPublisher.php"
+      "app/AppExtension.php"
     ]
   }
 }

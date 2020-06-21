@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App;
 
+use Symfony\Component\Messenger\Bridge\Amqp\Transport\Connection;
 use Symfony\Component\Messenger\MessageBus;
 use Symfony\Component\Messenger\Transport\AmqpExt\Connection as TransportConnection;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -26,7 +27,7 @@ final class InteractionsHelper
     public function __construct(MessageBus $bus)
     {
         $this->bus        = $bus;
-        $this->transport  = TransportConnection::fromDsn(\getenv('MESSENGER_TRANSPORT_DSN'));
+        $this->transport  = Connection::fromDsn(\getenv('MESSENGER_TRANSPORT_DSN'));
     }
 
     public function createQueue(): void

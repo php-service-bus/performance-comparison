@@ -4,10 +4,9 @@
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Debug\Debug;
 use App\InteractionsHelper;
 use App\StoreCustomer;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 set_time_limit(0);
 
@@ -49,6 +48,6 @@ $interactionsHelper->createQueue();
 for($i = 0; $i < 100000; $i++)
 {
     $interactionsHelper->dispatch(
-        new StoreCustomer(Uuid::uuid4()->toString(), 'name_' . $i, 'name@qwerty.root')
+        new StoreCustomer(Uuid::v4()->toRfc4122(), 'name_' . $i, 'name@qwerty.root')
     );
 }

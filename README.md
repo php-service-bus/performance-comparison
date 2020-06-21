@@ -26,14 +26,14 @@ This test goal is to show the difference between synchronous and asynchronous in
 
 *The estimated execution time is indicated (considering the delay in updating the schedule).*
 
-#### Pure php (Time spent: ~ **4m20s**)
-![pure](https://github.com/php-service-bus/performance-comparison/blob/v4.0/results/pure4.20.gif)
+#### Pure php (Time spent: ~ **4m11s**)
+![pure](https://github.com/php-service-bus/performance-comparison/blob/v4.1/results/pure-4.11.gif)
 
-#### [symfony/messenger](https://github.com/symfony/messenger) (Time spent: ~ **7m25s**)
-![symfony/messenger](https://github.com/php-service-bus/performance-comparison/blob/v4.0/results/messenger7.25.gif)
+#### [symfony/messenger](https://github.com/symfony/messenger) (Time spent: ~ **6m55s**)
+![symfony/messenger](https://github.com/php-service-bus/performance-comparison/blob/v4.1/results/messenger-6.55.gif)
 
-#### [php-service-bus/service-bus](https://github.com/php-service-bus/service-bus) (Time spent: ~ **1m**)
-![symfony/messenger](https://github.com/php-service-bus/performance-comparison/blob/v4.0/results/service-bus1m.gif)
+#### [php-service-bus/service-bus](https://github.com/php-service-bus/service-bus) (Time spent: ~ **1m05s**)
+![php-service-bus](https://github.com/php-service-bus/performance-comparison/blob/v4.1/results/php-service-bus-1.05.gif)
 
-#### Golang (Time spent: ~ **0m 22s**)
-![symfony/messenger](https://github.com/php-service-bus/performance-comparison/blob/v4.0/results/golang22.gif)
+#### Golang (Time spent: ~ **0m 30s**)
+![Golang](https://github.com/php-service-bus/performance-comparison/blob/v4.1/results/golang30.gif)
